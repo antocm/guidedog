@@ -1,0 +1,45 @@
+
+Installation & Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To install and run this software requires:
+
+* qt5
+* gcc
+* gawk
+* iptables - Commands for setup Linux's low level network filtering.
+* Linux
+
+Read the file called INSTALL for generic instructions about using cmake to install software.
+
+Post-build setup
+~~~~~~~~~~~~~~~~
+After running 'make install', a few more steps are needed to correctly install Guidedog.
+
+The Guidedog script at /etc/rc.guidedog needs to be run each time that
+a network interface goes up (enabled) or down (disabled). Mandrake 9.1,
+and I think the current RedHat (now is 8 may 2003) and hopefully others,
+have two directories:
+
+/etc/sysconfig/network-scripts/ifup.d
+/etc/sysconfig/network-scripts/ifdown.d
+
+These work much like /etc/rc.d/*. Any scripts (or symbol links to scripts)
+get executed when a network interface goes up or down. So to have Guidedog
+run we can add some links. First make sure that a file exits at
+/etc/rc.guidedog . Run the command (as root):
+
+    echo "#!/bin/bash" > /etc/rc.guidedog
+
+Now create some links in the ifup.d and ifdown.d directories:
+
+    /bin/ln -s /etc/rc.guidedog /etc/sysconfig/network-scripts/ifup.d/20Guidedog
+    /bin/ln -s /etc/rc.guidedog /etc/sysconfig/network-scripts/ifdown.d/20Guidedog
+
+When a network interface goes up/down the Guidedog script should run. You can
+check you boot message logs and look for a message from Guidedog.
+    
+Needless to say, but if you can use a prepackaged Guidedog for your Linux distribution then do so.
+    
+good luck,
+
+Simon Edwards <simon@simonzone.com>

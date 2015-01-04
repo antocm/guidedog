@@ -1,0 +1,14 @@
+
+This software uses make for building and installation. 
+
+Quick install instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+After unpacking the archive, set the current directory to the one containhing this INSTALL file, and run the following commands:
+
+    make
+    make install
+
+Explanation
+~~~~~~~~~~~~
+If you want to rebuild Makefile, issue 'qmake -makefile', otherwise, simply type 'make' to build the source code.
+The last command "make install", will probably have to be done as the root user or using root user privileges.
