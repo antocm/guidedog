@@ -1,0 +1,12 @@
+guidedog (1.2.0-3) utopic; urgency=low
+
+  * Removed wrong qtbas5 dependency
+
+ -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Mon, 05 Jan 2015 23:58:03 +0000
+
+guidedog (1.2.0-2) utopic; urgency=low
+
+  * Converted code to Qt5
+
+ -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Sat, 03 Jan 2015 20:00:34 +0000
+
