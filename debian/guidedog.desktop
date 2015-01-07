@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Exec=guidedog -caption "%c" %i %m  
+Icon=guidedog.png
+DocPath=guidedog/index.html
+Comment=
+Terminal=0
+Name=Guidedog
+GenericName=Port forwarding
+Keywords=iptables, forward
+X-KDE-RootOnly=true
+X-KDE-SubstituteUID=true
+X-KDE-Username=root
