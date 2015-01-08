@@ -1,3 +1,0 @@
-?package(guidedog):needs="X11" section="Applications/System/Security"\
-  title="guidedog" icon="guidedog" command="/usr/bin/guidedog"\
-  longtitle="IP masq/forwarding configuration utility"
