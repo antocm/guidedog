@@ -7,11 +7,11 @@ export QT_SELECT = qt5
 
 override_dh_install:
 	dh_install -pguidedog guidedog usr/bin
-	dh_install -pguidedog debian/51guidedog etc/ppp/ip-up.d
-	dh_install -pguidedog debian/51guidedog etc/ppp/ip-down.d
-	dh_install -pguidedog debian/51guidedog etc/network/if-up.d
-	dh_install -pguidedog debian/51guidedog etc/network/if-down.d
-	dh_install -pguidedog debian/guidedog.desktop usr/share/applications
+	dh_install -pguidedog system/51guidedog etc/ppp/ip-up.d
+	dh_install -pguidedog system/51guidedog etc/ppp/ip-down.d
+	dh_install -pguidedog system/51guidedog etc/network/if-up.d
+	dh_install -pguidedog system/51guidedog etc/network/if-down.d
+	dh_install -pguidedog system/guidedog.desktop usr/share/applications
 	dh_install -pguidedog icons/hicolor/48x48/apps/guidedog.png usr/share/icons/hicolor/48x48/apps
 	dh_install -pguidedog icons/hicolor/32x32/apps/guidedog.png usr/share/icons/hicolor/32x32/apps
 	dh_install -pguidedog icons/locolor/32x32/apps/guidedog.png usr/share/icons/locolor/32x32/apps
