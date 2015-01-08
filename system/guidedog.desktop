@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=gksudo guidedog  
+Icon=guidedog.png
+DocPath=guidedog/index.html
+Comment=
+Terminal=0
+Name=Guidedog
+GenericName=Port forwarding
+Keywords=iptables, forward
