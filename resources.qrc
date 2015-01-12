@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/hi48-app-guidedog.png</file>
+        <file>images/laserwarn.png</file>
+        <file>images/little_right_arrow.png</file>
+    </qresource>
+</RCC>
