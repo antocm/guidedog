@@ -1,7 +1,7 @@
 guidedog (1.2.0-2) unstable; urgency=low
 
   * New upstream release
-    - Converted code to Qt5
+    - Converted code to Qt5 (Closes: #774672, LP: #1407484)
   * Refactor packaging directory.
 
  -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Sat, 03 Jan 2015 20:00:34 +0000
