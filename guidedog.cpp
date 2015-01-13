@@ -48,6 +48,7 @@ AddressValidator::~AddressValidator() {
 
 ///////////////////////////////////////////////////////////////////////////
 QValidator::State AddressValidator::validate(QString &input, int & pos) const {
+    Q_UNUSED(pos);
     QRegExp sanity("^[0-9a-zA-Z./-]*$");
     QRegExp domainnametest("^([a-zA-Z][a-zA-Z0-9-]*\\.)+[a-zA-Z][a-zA-Z0-9-]*$");
     QRegExp iptest("^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
@@ -303,6 +304,7 @@ IPValidator::~IPValidator() {
 
 ///////////////////////////////////////////////////////////////////////////
 QValidator::State IPValidator::validate(QString &input, int & pos) const {
+    Q_UNUSED(pos);
     QRegExp sanity("^[0-9./]*$");
     QRegExp iptest("^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)$");
     QRegExp ipmaskedtest("^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)/([0-9]+)$");
