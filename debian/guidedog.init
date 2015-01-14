@@ -40,11 +40,10 @@ do_start()
         if [ -f /etc/rc.guidedog ]; then
 		/bin/bash /etc/rc.guidedog
 		echo "done."
-		return 0
         else
 		echo "/etc/rc.guidedog not found - doing nothing."
-		return 2
         fi
+	return 0
 }
 
 #
@@ -66,11 +65,10 @@ do_stop()
 		iptables -t nat -P POSTROUTING ACCEPT
 		iptables -t nat -P OUTPUT ACCEPT
 		echo "done."
-		return 0
         else
 		echo "/etc/rc.guidedog not found - doing nothing."
-		return 2
         fi
+	return 0
 }
 
 case "$1" in
