@@ -8,7 +8,7 @@ Vcs-Browser: https://github.com/antocm/guidedog
 
 Package: guidedog
 Architecture: any
-Depends: gawk, gksu, iptables, ${misc:Depends}, ${shlibs:Depends}
+Depends: gksu, iptables, ${misc:Depends}, ${shlibs:Depends}
 Description: NAT/masquerading/port-forwarding configuration tool in Qt5
  Guidedog is a GUI utility which allows you to easily activate and
  configure your machine for packet routing, Network Address
