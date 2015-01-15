@@ -249,7 +249,7 @@ bool GuidedogDoc::writeScript(QTextStream &stream) {
         "export LC_ALL\n"
 
         "# Work out our local IPs.\n"
-        "LOCAL_IP=\"`ifconfig | gawk '/inet addr:/ { match(\\$0,/inet addr:[[:digit:]\\\\.]+/)\n"
+        "LOCAL_IP=\"`ifconfig | awk '/inet addr:/ { match(\\$0,/inet addr:[[:digit:]\\\\.]+/)\n"
         "printf \\\"%s\\\\n\\\", substr(\\$0,RSTART+10,RLENGTH-10) }'`\"\n"
 
         "# Restore the language setting\n"
