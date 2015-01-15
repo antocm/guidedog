@@ -1,0 +1,10 @@
+guidedog usr/bin
+icons/hicolor/32x32/apps/guidedog.png usr/share/icons/hicolor/32x32/apps
+icons/hicolor/48x48/apps/guidedog.png usr/share/icons/hicolor/48x48/apps
+icons/locolor/16x16/apps/guidedog.png usr/share/icons/locolor/16x16/apps
+icons/locolor/32x32/apps/guidedog.png usr/share/icons/locolor/32x32/apps
+system/51guidedog etc/network/if-down.d
+system/51guidedog etc/network/if-up.d
+system/51guidedog etc/ppp/ip-down.d
+system/51guidedog etc/ppp/ip-up.d
+system/guidedog.desktop usr/share/applications
