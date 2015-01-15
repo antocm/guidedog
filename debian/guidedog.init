@@ -38,7 +38,7 @@ do_start()
 
 	echo -n "Setting up guidedog config..."
         if [ -f /etc/rc.guidedog ]; then
-		/bin/bash /etc/rc.guidedog
+		/bin/sh /etc/rc.guidedog
 		echo "done."
         else
 		echo "/etc/rc.guidedog not found - doing nothing."

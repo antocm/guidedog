@@ -28,7 +28,7 @@ get executed when a network interface goes up or down. So to have Guidedog
 run we can add some links. First make sure that a file exits at
 /etc/rc.guidedog . Run the command (as root):
 
-    echo "#!/bin/bash" > /etc/rc.guidedog
+    echo "#!/bin/sh" > /etc/rc.guidedog
 
 Now create some links in the ifup.d and ifdown.d directories:
 
