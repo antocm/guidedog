@@ -8,5 +8,5 @@
 
 # setup guidedog
 if [ -x /etc/rc.guidedog ]; then
-  /bin/bash /etc/rc.guidedog
+  /bin/sh /etc/rc.guidedog
 fi

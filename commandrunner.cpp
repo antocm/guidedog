@@ -94,7 +94,7 @@ void CommandRunner::run(QString cmd) {
     running = true;
     okbutton->setEnabled(false);
     // Start a BASH shell
-    kid->start("/bin/bash", QStringList() << "-c" << command);
+    kid->start("/bin/sh", QStringList() << "-c" << command);
     exec();
 }
 
