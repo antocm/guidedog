@@ -43,7 +43,6 @@ do_start()
         else
 		echo "/etc/rc.guidedog not found - doing nothing."
         fi
-	return 0
 }
 
 #
@@ -68,7 +67,6 @@ do_stop()
         else
 		echo "/etc/rc.guidedog not found - doing nothing."
         fi
-	return 0
 }
 
 case "$1" in
@@ -114,4 +112,6 @@ case "$1" in
 	exit 3
 	;;
 esac
+
+:
 
