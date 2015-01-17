@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Guidedog
+Name=Guidedog as root
 GenericName=Port forwarding
 Comment=
 Keywords=iptables, forward
 Type=Application
-Exec=guidedog 
+Exec=gksudo guidedog 
 Icon=guidedog.png
 DocPath=guidedog/index.html
 Terminal=0
