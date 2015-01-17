@@ -1,10 +1,8 @@
 [Desktop Entry]
-Name=Guidedog
-GenericName=Port forwarding
-Comment=
-Keywords=iptables, forward
 Type=Application
+Name=Guidedog
+Comment=Advanced routing configuration utiliy
+Keywords=iptables;forward
 Exec=guidedog 
 Icon=guidedog.png
-DocPath=guidedog/index.html
 Terminal=0
