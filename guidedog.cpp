@@ -682,7 +682,7 @@ void GuideDogApp::syncGUIFromDoc() {
     }
         // Select the first item.
     if (doc->nomasqueradelist.count() != 0) {
-        ui->nomasqlistbox->setCurrentItem(0);
+        ui->nomasqlistbox->setCurrentRow(0);
         ui->nomasqlineedit->setText(doc->nomasqueradelist.at(ui->nomasqlistbox->currentRow()).getAddress());
     }
 
@@ -1009,20 +1009,23 @@ void GuideDogApp::slotNewAddressButton() {
 
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotDeleteAddressButton() {
-    //IPRange *thisiprange;
-    int i;
+    int rowIndex;
         
     if (updatinggui) return;
     updatinggui = true;
-    //thisiprange = &(doc->nomasqueradelist[ui->nomasqlistbox->currentRow()]);
 
-    i = ui->nomasqlistbox->currentRow();
-    if (i >= 0) {
-        ui->nomasqlistbox->takeItem(i);
-        doc->nomasqueradelist.removeAt(i);
+    rowIndex = ui->nomasqlistbox->currentRow();
+    if (rowIndex >= 0) {
+        ui->nomasqlistbox->takeItem(rowIndex);
+        doc->nomasqueradelist.removeAt(rowIndex);
         if (doc->nomasqueradelist.count()) {
-            ui->nomasqlineedit->setText(doc->nomasqueradelist.at(0).getAddress());
-            ui->nomasqlistbox->setCurrentItem(ui->nomasqlistbox->item(0));
+            if (rowIndex == 0) {
+                ui->nomasqlineedit->setText(doc->nomasqueradelist.at(0).getAddress());
+                ui->nomasqlistbox->setCurrentItem(ui->nomasqlistbox->item(0));
+            } else {
+                ui->nomasqlineedit->setText(doc->nomasqueradelist.at(rowIndex - 1).getAddress());
+                ui->nomasqlistbox->setCurrentItem(ui->nomasqlistbox->item(rowIndex - 1));
+            }
         } else {
             ui->nomasqlineedit->setText("");
             ui->nomasqlistbox->setDisabled(true);
@@ -1076,18 +1079,22 @@ void GuideDogApp::slotNewForwardButton() {
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotDeleteForwardButton() {
     GuidedogPortForwardRule rule;
-    int i;
+    int rowIndex;
 
     if (updatinggui) return;
     updatinggui = true;
 
-    i = ui->forwardlistbox->currentRow();
-    qDebug("Deleting row: %d", i);
-    rule = doc->forwardrulelist.at(i);
-    if (i >= 0) {
-        ui->forwardlistbox->setCurrentRow(0);
-        ui->forwardlistbox->takeItem(i);
-        doc->forwardrulelist.removeAt(i);
+    rowIndex = ui->forwardlistbox->currentRow();
+    qDebug("Deleting row: %d", rowIndex);
+    rule = doc->forwardrulelist.at(rowIndex);
+    if (rowIndex >= 0) {
+        ui->forwardlistbox->takeItem(rowIndex);
+        doc->forwardrulelist.removeAt(rowIndex);
+        if (rowIndex == 0) {
+            ui->forwardlistbox->setCurrentRow(0);
+        } else {
+            ui->forwardlistbox->setCurrentRow(rowIndex - 1);
+        }
         if (ui->forwardlistbox->currentRow() == -1) {
             setForwardRule(0);
         } else {
@@ -1381,7 +1388,7 @@ bool GuideDogApp::resetSystemConfiguration() {
         "echo \"Using iptables.\"\n"
         "echo \"Resetting nat table rules.\"\n"
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin\n"
-        "/sbin/sysctl -w net.ipv4.ip_forward = 0\n"
+        "/sbin/sysctl -w net.ipv4.ip_forward=0\n"
         "iptables -t nat -F\n"
         "iptables -t nat -X\n"
         "iptables -t nat -P PREROUTING ACCEPT\n"
@@ -1398,9 +1405,9 @@ void GuideDogApp::openDefault() {
     QString errorstring;
     QFileInfo fileinfo(SYSTEM_RC_GUIDEDOG);
 
-    if (!superusermode) {
-        return; // Sorry, if you are not root then you get no default firewall.
-    }
+//    if (!superusermode) {
+//        return; // Sorry, if you are not root then you get no default firewall.
+//    }
 
     if (!fileinfo.exists()) {
             // There doesn't appear to be a previous Guarddog firewall script.
