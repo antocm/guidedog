@@ -386,6 +386,8 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
     };
     QString rightpart;
 
+    rule=0;
+
     //stream.setEncoding(QTextStream::Latin1);
     s = stream.readLine();
     if (s.isNull()) {
