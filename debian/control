@@ -1,7 +1,7 @@
 Source: guidedog
 Section: net
 Priority: optional
-Maintainer: Antonio Cardoso Martins <digiplan.pt@gmail.com>, Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
+Maintainer: Antonio Cardoso Martins <digiplan.pt@gmail.com>
 Build-Depends: debhelper (>= 9), qtbase5-dev
 Standards-Version: 3.9.6
 Vcs-Browser: https://github.com/antocm/guidedog
