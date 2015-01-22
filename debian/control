@@ -2,12 +2,14 @@ Source: guidedog
 Section: net
 Priority: optional
 Maintainer: Antonio Cardoso Martins <digiplan.pt@gmail.com>
+Uploaders: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 Build-Depends: debhelper (>= 9), qtbase5-dev
 Standards-Version: 3.9.6
 Vcs-Browser: https://github.com/antocm/guidedog
+VCS-Git: https://github.com/antocm/guidedog.git
 
 Package: guidedog
-Architecture: any
+Architecture: linux-any
 Depends: gksu, iptables, ${misc:Depends}, ${shlibs:Depends}
 Description: NAT/masquerading/port-forwarding configuration tool in Qt5
  Guidedog is a GUI utility which allows you to easily activate and
@@ -17,5 +19,3 @@ Description: NAT/masquerading/port-forwarding configuration tool in Qt5
  If you are using the functions of this program, it is recommended that
  you setup/configure a firewall to protect your machine - guidedog does
  not setup a firewall for you.
- .
- Guidedog requires iptables, and therefore Linux kernel 2.4+.
