@@ -78,7 +78,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Guidedog 1.0.0 (Using Qt5)</string>
+          <string>Guidedog 1.2.0 (Using Qt5)</string>
          </property>
         </widget>
        </item>
@@ -103,7 +103,16 @@
          <item>
           <widget class="QLabel" name="labelAbout">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Advanced networking utility&lt;/p&gt;&lt;p&gt;Utility for easily configureing advanced networking features&lt;/p&gt;&lt;p&gt;(c) 2001-2003, Simon Edwards&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.simonzone.com/software/guidedog&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.simonzone.com/software/guidedog&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Advanced networking utility&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Utility for easily configureing advanced networking features&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(c) 2001-2008, Simon Edwards&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.simonzone.com/software/guidedog&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.simonzone.com/software/guidedog&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(C) 2014-2015, Antonio Cardoso Martins&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.simonzone.com/software/guidedog&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/antocm/guidedog/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -120,13 +129,13 @@
        </widget>
        <widget class="QWidget" name="tabAuthor">
         <attribute name="title">
-         <string>A&amp;uthor</string>
+         <string>A&amp;uthors</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QLabel" name="labelAuthor">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please use &lt;a href=&quot;http://bugs.kde.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.kde.org&lt;/span&gt;&lt;/a&gt; to report bugs&lt;/p&gt;&lt;p&gt;Simon Edwards&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:simon@simonzone.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;simon@simonzone.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.simonzone.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.simonzone.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Developer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please use &lt;a href=&quot;https://github.com/antocm/guidedog/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/antocm/guidedog/issues&lt;/span&gt;&lt;/a&gt; to report bugs&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Simon Edwards &lt;a href=&quot;mailto:simon@simonzone.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;simon@simonzone.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Antonio Cardoso Martins &lt;a href=&quot;mailto:digiplan.pt@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;digiplan.pt@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
