@@ -5,6 +5,7 @@ Maintainer: Antonio Cardoso Martins <digiplan.pt@gmail.com>
 Uploaders: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 Build-Depends: debhelper (>= 9), qtbase5-dev
 Standards-Version: 3.9.6
+Homepage: https://github.com/antocm/guidedog/wiki
 Vcs-Browser: https://github.com/antocm/guidedog
 VCS-Git: https://github.com/antocm/guidedog.git
 
