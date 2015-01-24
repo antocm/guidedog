@@ -3,19 +3,19 @@ guidedog (1.2.0-1) unstable; urgency=low
  * New upstream release
  * Re-introducing package to Debian (Closes: #774672, LP: #1407484)
  * New Build-dependency on qtbase5-dev as upstream changed to qt-5
-   Added information for new vcs. Changed to new maintainers.
+   - Added information for new vcs. Changed to new maintainers
  * Standard-Version bumped to 3.9.6:
-   added d/source/format.
-   Changed d/compat from 5 to 9.
-   Rewritten from scratch d/copyright.
-   Moved guidedog.ifupdown to source.
-   Created guidedog.install.
-   Removed unneeded init.d, menu (moved to source code), postinst,
-   postrm and prerm.
-   Changed d/rules to a newer simpler version.
-   Added new d/watch.
+   - added d/source/format
+   - Changed d/compat from 5 to 9
+   - Rewritten from scratch d/copyright
+   - Moved guidedog.ifupdown to source
+   - Created guidedog.install
+   - Removed unneeded init.d, menu (moved to source code), postinst,
+     postrm and prerm
+   - Changed d/rules to a newer simpler version
+   - Added new d/watch
 
- -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Sat, 03 Jan 2015 20:00:34 +0000
+ -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Sat, 24 Jan 2015 16:19:49 +0000
 
 guidedog (1.0.0-6) unstable; urgency=low
 
