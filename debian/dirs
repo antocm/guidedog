@@ -1,6 +1,0 @@
-usr/bin
-usr/share/applications
-etc/ppp/ip-up.d
-etc/ppp/ip-down.d
-etc/network/if-up.d
-etc/network/if-down.d
