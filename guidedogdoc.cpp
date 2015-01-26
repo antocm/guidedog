@@ -249,8 +249,9 @@ bool GuidedogDoc::writeScript(QTextStream &stream) {
         "export LC_ALL\n"
 
         "# Work out our local IPs.\n"
-        "LOCAL_IP=\"`ifconfig | awk '/inet addr:/ { match(\\$0,/inet addr:[[:digit:]\\\\.]+/)\n"
-        "printf \\\"%s\\\\n\\\", substr(\\$0,RSTART+10,RLENGTH-10) }'`\"\n"
+        "# LOCAL_IP=\"`ifconfig | awk '/inet addr:/ { match(\\$0,/inet addr:[[:digit:]\\\\.]+/)\n"
+        "# printf \\\"%s\\\\n\\\", substr(\\$0,RSTART+10,RLENGTH-10) }'`\"\n"
+        "LOCAL_IP=`ip -4 addr |grep inet | cut -d \"/\" -f 1 |cut -d \" \" -f 6`\n"
 
         "# Restore the language setting\n"
         "LANG=$GUIDEDOG_BACKUP_LANG\n"
