@@ -7,5 +7,5 @@ system/51guidedog etc/network/if-down.d
 system/51guidedog etc/network/if-up.d
 system/51guidedog etc/ppp/ip-down.d
 system/51guidedog etc/ppp/ip-up.d
-system/guidedog.desktop usr/share/applications
 system/guidedog-root.desktop usr/share/applications
+system/guidedog.desktop usr/share/applications
