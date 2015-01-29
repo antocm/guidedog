@@ -1,0 +1,97 @@
+guidedog (1.2.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Re-introducing package to Debian (Closes: #774672, LP: #1407484)
+  * New Build-dependency on qtbase5-dev as upstream changed to qt-5
+    - Added information for new vcs. Changed to new maintainers
+  * Standard-Version bumped to 3.9.6:
+    - added d/source/format
+    - Changed d/compat from 5 to 9
+    - Rewritten from scratch d/copyright
+    - Moved guidedog.ifupdown to source
+    - Created guidedog.install
+    - Removed unneeded init.d, menu (moved to source code), postinst,
+      postrm and prerm
+    - Changed d/rules to a newer simpler version
+    - Added new d/watch
+
+ -- Antonio Cardoso Martins <digiplan.pt@gmail.com>  Sat, 24 Jan 2015 16:19:49 +0000
+
+guidedog (1.0.0-6) unstable; urgency=low
+
+  * Update Standard-Version to 3.9.1
+  * Update dephelper to version 5
+  * Update config.{guess.sub} (closes: #582537)
+  * Add dh_icons to debian/rules (from Ubuntu)
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sun, 02 Jan 2011 16:45:44 +0000
+
+guidedog (1.0.0-5) unstable; urgency=low
+
+  * Update location of .desktop file (closes: #488748)
+  * Bump to Stanards-Version 3.8.0, no changes
+
+ -- Paul Cupis <paul@cupis.co.uk>  Fri, 12 Sep 2008 15:53:25 +0100
+
+guidedog (1.0.0-4) unstable; urgency=low
+
+  * Remove Build-Depends on obsolete libqt3-compat-headers
+    (closes: #464422)
+  * Add LSB formatted init.d dependency, thanks to Petter
+    Reinholdtsen for the patch (closes: #462714)
+  * Update menu section
+  * Bump Standards-Version to 3.7.3.
+  * Remove empty usr/lib directory from package.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sun, 16 Mar 2008 23:49:57 +0000
+
+guidedog (1.0.0-3) unstable; urgency=low
+
+  * Remove kderemove="y" from usr/share/menu/guidedog
+  * Remove usr/lib/menu (closes: #349673)
+
+ -- Paul Cupis <paul@cupis.co.uk>  Tue, 24 Jan 2006 22:06:28 +0000
+
+guidedog (1.0.0-2) unstable; urgency=low
+
+  * Upload for GCC4 transition.
+  * Bump to Standards-Version 3.6.2.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sun,  4 Sep 2005 12:47:48 +0100
+
+guidedog (1.0.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Fri, 14 Nov 2003 19:23:45 +0000
+
+guidedog (0.9.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Upon purge, remove delete configuration file /etc/rc.guidedog.
+  * Standards-Version 3.6.1 - no changes.
+  * Don't run guidedog script twice when bringing up PPP interfaces.
+    My thanks to Thomas Hood. (closes: #212855)
+  * Install upstream KDE documentation.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sun, 12 Oct 2003 00:05:59 +0100
+
+guidedog (0.9.1-2) unstable; urgency=low
+
+  * Add Depend on gawk and iptables, as they are required by the
+    rc.guidedog script.
+  * Fix up etc/init.d/guidedog to allow you to 'stop' guidedog -
+    i.e. reset the netfilter configuration /not/ to do IP masq/NAT.
+  * Add 'true' to end of generated rc.guidedog so that the script returns
+    true.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sat,  7 Jun 2003 20:59:40 +0100
+
+guidedog (0.9.1-1) unstable; urgency=low
+
+  * Initial release. (closes: #193772)
+  * guidedog/guidedog.cpp: added
+      #include <stdlib.h>
+    at top of file to get the program to compile.
+
+ -- Paul Cupis <paul@cupis.co.uk>  Sat, 31 May 2003 17:41:50 +0100

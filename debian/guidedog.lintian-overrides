@@ -1,0 +1,2 @@
+# We have a guidedog-root.desktop to run guidedog as root for user convenience
+guidedog binary: desktop-command-not-in-package
