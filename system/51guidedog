@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# If we are being called by ifupdown when it changes a PPP interface,
+# and if the appropriate file is in place to do this for PPP anyway,
+# don't do anything.
+[ -x /etc/ppp/ip-up.d/51guidedog -a "$MODE" = "start" -a "$METHOD" = "ppp" ] && exit 0
+[ -x /etc/ppp/ip-down.d/51guidedog -a "$MODE" = "stop" -a "$METHOD" = "ppp" ] && exit 0
+
+# setup guidedog
+if [ -x /etc/rc.guidedog ]; then
+  /bin/sh /etc/rc.guidedog
+fi

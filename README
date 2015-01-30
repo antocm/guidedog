@@ -1,0 +1,46 @@
+
+Installation & Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To install and run this software requires:
+
+* qtbase5-dev
+* gcc
+* gksudo
+* iproute2
+* iptables - Commands for setup Linux's low level network filtering
+* Linux
+
+Read the file called INSTALL for generic instructions about using cmake to install software.
+
+Post-build setup
+~~~~~~~~~~~~~~~~
+After running 'make', a few more steps are needed to correctly install Guidedog.
+
+The Guidedog script at /etc/rc.guidedog needs to be run each time that
+a network interface goes up (enabled) or down (disabled). Most Linux
+have two directories to control this:
+
+/etc/sysconfig/network-scripts/ifup.d
+/etc/sysconfig/network-scripts/ifdown.d
+
+These work much like /etc/rc.d/*. Any scripts (or symbol links to scripts)
+get executed when a network interface goes up or down. So to have Guidedog
+run we can add some links. First make sure that a file exits at
+/etc/rc.guidedog . Run the command (as root):
+
+    echo "#!/bin/sh" > /etc/rc.guidedog
+
+Now create some links in the ifup.d and ifdown.d directories:
+
+    /bin/ln -s /etc/rc.guidedog /etc/sysconfig/network-scripts/ifup.d/51guidedog
+    /bin/ln -s /etc/rc.guidedog /etc/sysconfig/network-scripts/ifdown.d/51guidedog
+
+When a network interface goes up/down the Guidedog script should run. You can
+check you boot message logs and look for a message from Guidedog.
+    
+Needless to say, but if you can use a prepackaged Guidedog for your Linux distribution then do so.
+    
+good luck,
+
+Simon Edwards <simon@simonzone.com>
+Antonio Cardoso Martins <digiplan.pt@gmail.com>

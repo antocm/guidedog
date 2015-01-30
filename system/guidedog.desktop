@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Guidedog
+Comment=Advanced routing configuration utiliy
+Keywords=iptables;forward
+Exec=guidedog 
+Icon=guidedog.png
+Terminal=0

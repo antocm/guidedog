@@ -1,0 +1,9 @@
+
+This software uses qmake for building and installation. 
+
+Quick install instructions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+After unpacking the archive, set the current directory to the one containhing this INSTALL file, and run the following commands:
+
+If you want to create a Makefile, issue 'qmake -makefile', otherwise, simply type 'qmake' to build the source code.
+The last command "make install", will probably have to be done as the root user or using root user privileges.
