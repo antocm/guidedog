@@ -1,13 +1,20 @@
 #!/usr/bin/make -f
 
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE=1
+
 export QT_SELECT = qt5
 
 %:
 	dh $@
 
 override_dh_install:
-	cp system/guidedog.ifupdown debian/etc/network/if-down.d/51guidedog
-	cp system/guidedog.ifupdown debian/etc/network/if-up.d/51guidedog
-	cp system/guidedog.ifupdown debian/etc/network/ip-down.d/51guidedog
-	cp system/guidedog.ifupdown debian/etc/network/ip-up.d/51guidedog
+	install -d debian/guidedog/etc/network/if-down.d
+	install -d debian/guidedog/etc/network/if-up.d
+	install -d debian/guidedog/etc/network/ip-down.d
+	install -d debian/guidedog/etc/network/ip-up.d
+	install -m 755 system/guidedog.ifupdown debian/guidedog/etc/network/if-down.d/51guidedog
+	install -m 755 system/guidedog.ifupdown debian/guidedog/etc/network/if-up.d/51guidedog
+	install -m 755 system/guidedog.ifupdown debian/guidedog/etc/network/ip-down.d/51guidedog
+	install -m 755 system/guidedog.ifupdown debian/guidedog/etc/network/ip-up.d/51guidedog
 	dh_install
