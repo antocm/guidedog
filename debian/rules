@@ -5,3 +5,9 @@ export QT_SELECT = qt5
 %:
 	dh $@
 
+override_dh_install:
+	cp system/guidedog.ifupdown debian/etc/network/if-down.d/51guidedog
+	cp system/guidedog.ifupdown debian/etc/network/if-up.d/51guidedog
+	cp system/guidedog.ifupdown debian/etc/network/ip-down.d/51guidedog
+	cp system/guidedog.ifupdown debian/etc/network/ip-up.d/51guidedog
+	dh_install
