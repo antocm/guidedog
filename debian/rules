@@ -3,6 +3,7 @@
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 export QT_SELECT = qt5
 
 %:
