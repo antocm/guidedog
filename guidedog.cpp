@@ -1341,9 +1341,6 @@ bool GuideDogApp::applyScript(bool warnfirst) {
         }
         cr.setWindowTitle(tr("Modify Routing Configuration"));
         cr.setHeading(tr("Configuring...\n\nOutput:"));
-	// Consider this line instead of exporting the variable in the shell
-	// Proposed by Felix Geyer <debfx-pkg@fobos.de>  Sat, 08 Jan 2011 15:59:51 +0100
-	// putenv("GUIDEDOG_VERBOSE=1");
         cr.run(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
         systemconfigmodified = true;
         commandrunnersize = cr.size();
