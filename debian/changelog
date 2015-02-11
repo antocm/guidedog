@@ -1,3 +1,11 @@
+guidedog (1.2.0-2) UNRELEASED; urgency=medium
+
+  * Update guidedog.postrm to remove rc.guidedog.
+  [ Antonio Cardoso Martins ]
+  * Add -Wl,--as-needed to avoid linking useless libraries.
+
+ -- Gianfranco Costamagna <costamagnagianfranco@yahoo.it>  Wed, 11 Feb 2015 17:04:01 +0100
+
 guidedog (1.2.0-1) unstable; urgency=low
 
   * New upstream release
