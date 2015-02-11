@@ -1,0 +1,6 @@
+#DEBHELPER#
+case "$1" in
+	"purge")
+		rm -f /etc/rc.guidedog
+		;;
+esac
