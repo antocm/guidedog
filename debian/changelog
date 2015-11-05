@@ -1,3 +1,11 @@
+guidedog (1.2.0-3) unstable; urgency=medium
+
+  * Update watch file to point to releases instead of tags and to strip the
+    debian tags from upstream VCS
+  * Update my uid
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Thu, 05 Nov 2015 15:33:05 +0100
+
 guidedog (1.2.0-2) unstable; urgency=medium
 
   * Update guidedog.postrm to remove rc.guidedog.
