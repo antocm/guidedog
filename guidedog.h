@@ -69,8 +69,9 @@ public:
     explicit GuideDogApp(QWidget *parent = 0);
     ~GuideDogApp();
 
-    bool initialize(bool god);
-	void openDefault();
+    // bool initialize(bool god);
+    bool initialize();
+    void openDefault();
     bool applyScript(bool warnfirst);
     bool resetSystemConfiguration();
 
@@ -123,7 +124,7 @@ public slots:
     void slotDescriptionChanged();
 
 private:
-    bool superusermode;
+    // bool superusermode;
     bool systemconfigmodified;
 	bool waspreviousconfiguration;
 

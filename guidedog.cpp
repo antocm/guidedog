@@ -561,16 +561,17 @@ GuideDogApp::~GuideDogApp() {
 }
 
 ///////////////////////////////////////////////////////////////////////////
-bool GuideDogApp::initialize(bool god) {
+// Previously, there was a bool god argument accepted by this method
+bool GuideDogApp::initialize() {
     waspreviousconfiguration = false;
     systemconfigmodified = false;
 
     // If not running as root, only import export features available
-    superusermode = god;
-    if (!superusermode) {
-        ui->okButton->setEnabled(false);
-        ui->applyButton->setEnabled(false);
-    }
+    // superusermode = god;
+    // if (!superusermode) {
+    //     ui->okButton->setEnabled(false);
+    //     ui->applyButton->setEnabled(false);
+    // }
 
     doc = new GuidedogDoc();
 
@@ -1346,9 +1347,9 @@ bool GuideDogApp::applyScript(bool warnfirst) {
         }
         cr.setWindowTitle(tr("Modify Routing Configuration"));
         cr.setHeading(tr("Configuring...\n\nOutput:"));
-	// Consider this line instead of exporting the variable in the shell
-	// Proposed by Felix Geyer <debfx-pkg@fobos.de>  Sat, 08 Jan 2011 15:59:51 +0100
-	// putenv("GUIDEDOG_VERBOSE=1");
+        // Consider this line instead of exporting the variable in the shell
+        // Proposed by Felix Geyer <debfx-pkg@fobos.de>  Sat, 08 Jan 2011 15:59:51 +0100
+        // putenv("GUIDEDOG_VERBOSE=1");
         cr.run(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
         systemconfigmodified = true;
         commandrunnersize = cr.size();
@@ -1413,9 +1414,9 @@ void GuideDogApp::openDefault() {
     QString errorstring;
     QFileInfo fileinfo(SYSTEM_RC_GUIDEDOG);
 
-//    if (!superusermode) {
-//        return; // Sorry, if you are not root then you get no default firewall.
-//    }
+    // if (!superusermode) {
+    //    return; // Sorry, if you are not root then you get no default firewall.
+    // }
 
     if (!fileinfo.exists()) {
         // There doesn't appear to be a previous Guidedog firewall script.

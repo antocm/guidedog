@@ -37,15 +37,14 @@ int main(int argc, char *argv[])
     // parser.addPositionalArgument("file", QObject::tr("main", "The file to open."));
     // parser.process(app);
     GuideDogApp w;
-    if (w.initialize(getuid() == 0)) {
+    // if (w.initialize(getuid() == 0)) {
+    if (w.initialize()) {
         w.show();
         if (getuid() != 0) {
             QMessageBox::information(0, QObject::tr("Information - Guidedog"),
                 QObject::tr(
-                "Since you do not have superuser privileges, Guidedog is\n"
-                "running with reduced functionality. Scripts may be \n"
-                "Imported/Exported, but  the system's networking settings\n"
-                "may not be changed.\n"));
+                "Since you do not have superuser privileges, Guidedog will\n"
+                "ask for root credentials when needed.\n"));
         }
 
         return app.exec();
