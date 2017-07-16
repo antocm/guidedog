@@ -1413,8 +1413,8 @@ void GuideDogApp::openDefault() {
 //    }
 
     if (!fileinfo.exists()) {
-            // There doesn't appear to be a previous Guarddog firewall script.
-            // Just warn the user about the ramifications.
+        // There doesn't appear to be a previous Guidedog firewall script.
+        // Just warn the user about the ramifications.
         QMessageBox::information(this, tr("Information - Guidedog"),
             QString(tr("Guidedog was unable to find a Guidedog script at %1.\n"
             "This is probably ok, it just means that this is the first time Guidedog has been run on this system.\n"
@@ -1423,7 +1423,7 @@ void GuideDogApp::openDefault() {
     } else {
         if (doc->openScript(filename, errorstring) == false) {
 	        doc->factoryDefaults();
-                // We were unable to open the guarddog firewall.
+            // We were unable to open the guidedog firewall.
             QMessageBox::critical(this, tr("Error - Guidedog"),
                 QString(tr("Guidedog was unable to read the file at %1 as being a Guidedog script.\n"
                 "Please be aware that the settings shown may not represent the system's current routing configuration.\n\n"
