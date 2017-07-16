@@ -630,7 +630,7 @@ bool GuideDogApp::initialize() {
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
     connect(ui->okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancel()));
+    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotQuit()));
 	
 	readOptions();
 	openDefault();
@@ -795,11 +795,11 @@ void GuideDogApp::slotOk() {
 }
 
 ///////////////////////////////////////////////////////////////////////////
-void GuideDogApp::slotCancel() {
+void GuideDogApp::slotQuit() {
     QString errorstring;
     QMessageBox::StandardButton reply;
 
-    if (waspreviousconfiguration &&  systemconfigmodified) {
+    if (waspreviousconfiguration && systemconfigmodified) {
         // This is where things become complex.
         // Should we try to restore things to how they were before this program started?
         reply = QMessageBox::warning(this, tr("Warning - Guidedog"),
@@ -823,12 +823,12 @@ void GuideDogApp::slotCancel() {
                 accept();
                 break;
 
-            // "Forget I ever pressed the Cancel button."
+            // "Forget I ever pressed the Quit button."
             default:
                 break;
         }
     } else {
-        // Simple Cancel.
+        // Simple Quit.
         saveOptions();
         accept();
     }	

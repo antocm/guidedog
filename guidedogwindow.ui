@@ -484,7 +484,7 @@
               <item row="0" column="1" colspan="2">
                <widget class="QRadioButton" name="originalthismachineradio">
                 <property name="text">
-                 <string>This machine</string>
+                 <string>This &amp;machine</string>
                 </property>
                </widget>
               </item>
@@ -504,7 +504,7 @@
               <item row="1" column="1">
                <widget class="QRadioButton" name="originalspecifyradio">
                 <property name="text">
-                 <string>Specify:</string>
+                 <string>Sp&amp;ecify:</string>
                 </property>
                </widget>
               </item>
@@ -607,7 +607,7 @@
               <item row="0" column="1" colspan="2">
                <widget class="QRadioButton" name="newthismachineradio">
                 <property name="text">
-                 <string>This machine</string>
+                 <string>Th&amp;is machine</string>
                 </property>
                </widget>
               </item>
@@ -820,9 +820,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="cancelButton">
+      <widget class="QPushButton" name="quitButton">
        <property name="text">
-        <string>&amp;Cancel</string>
+        <string>&amp;Quit</string>
        </property>
       </widget>
      </item>
