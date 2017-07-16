@@ -78,7 +78,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Guidedog 1.2.0 (Using Qt5)</string>
+          <string>Guidedog 1.2.0</string>
          </property>
         </widget>
        </item>
