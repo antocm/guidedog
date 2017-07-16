@@ -83,7 +83,7 @@ public slots:
     // Dialog main buttons
     void slotOk();
     void slotApply();
-    void slotQuit();
+    void slotClose();
     void slotAbout();
     void slotHelp();
 

@@ -820,9 +820,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="quitButton">
+      <widget class="QPushButton" name="closeButton">
        <property name="text">
-        <string>&amp;Quit</string>
+        <string>&amp;Close</string>
        </property>
       </widget>
      </item>

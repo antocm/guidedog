@@ -630,7 +630,7 @@ bool GuideDogApp::initialize() {
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
     connect(ui->okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotQuit()));
+    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(slotClose()));
 	
 	readOptions();
 	openDefault();
@@ -795,7 +795,7 @@ void GuideDogApp::slotOk() {
 }
 
 ///////////////////////////////////////////////////////////////////////////
-void GuideDogApp::slotQuit() {
+void GuideDogApp::slotClose() {
     QString errorstring;
     QMessageBox::StandardButton reply;
 
