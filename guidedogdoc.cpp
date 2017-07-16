@@ -113,6 +113,7 @@ void GuidedogDoc::setMasqueradeFTP(bool on) {
 bool GuidedogDoc::isMasqueradeFTP() {
     return masqueradeftp;
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuidedogDoc::setMasqueradeIRC(bool on) {
     masqueradeirc = on;
@@ -405,7 +406,7 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
         goto error;
     }
 
-        // Read past the boring human readable copperplate stuff.
+    // Read past the boring human readable copperplate stuff.
     do {
         s = stream.readLine();
         if (s.isNull()) {
@@ -414,7 +415,7 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
         }
     } while (s != "# [Description]");
 
-        // Read the config description.
+    // Read the config description.
     description = "";
     addcr = false;
     while (true) {
@@ -433,7 +434,7 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
         description.append(s.right(s.length() - 3));
     }
 
-        // Read the Config
+    // Read the Config
     s = stream.readLine();
     while (true) {
         if (s.isNull()) {
@@ -480,7 +481,7 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
                 nomasqaddress->setAddress(rightpart);
                 break;
             default:
-                    // Should we complain?
+                // Should we complain?
                 break;
         }
         s = stream.readLine();
@@ -496,7 +497,7 @@ bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
             break;  // We've got to the end of this part of the show.
         }
 
-            // Try to identify the line we are looking at.
+        // Try to identify the line we are looking at.
         for (i = 0; forwardparameterlist[i] != 0; i++) {
             if (s.startsWith(forwardparameterlist[i])) {
                 break;

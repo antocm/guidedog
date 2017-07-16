@@ -46,7 +46,7 @@ void SimeLineEdit::keyPressEvent(QKeyEvent *e) {
         e->accept();
         if (t != text()) {
             emit textChanged(text());   // This is bullshit. If keyPressEvent() changed the text
-                // then I expect a textChanged() signal to be emitted. I should not have to DIY.
+            // then I expect a textChanged() signal to be emitted. I should not have to DIY.
         }
         if (parentWidget() != 0) {
             parentWidget()->setFocus();

@@ -61,7 +61,7 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(input)) {
         return Invalid;
     }
@@ -70,12 +70,12 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Test against the domainname regexp.
+    // Test against the domainname regexp.
     if (domainnametest.exactMatch(input)) {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(input)) {
         ipbyte = iptest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -96,7 +96,7 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(input)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -168,17 +168,17 @@ void AddressValidator::fixup(QString &input) const {
     int l, pos;
     bool ok;
 
-        // This is real DWIM (Do What I Mean) code.
-        // Somehow it is meant to take what the user entered and work out
-        // what they meant and then correct the entered string.
-        // It's just a bunch of guesses, hunches and heristics.
+    // This is real DWIM (Do What I Mean) code.
+    // Somehow it is meant to take what the user entered and work out
+    // what they meant and then correct the entered string.
+    // It's just a bunch of guesses, hunches and heristics.
 
     if (input.isNull()) {    // Just in case.
         input = "0.0.0.0";
         return;
     }
 
-        // Filter out any bad characters.
+    // Filter out any bad characters.
     clean = "";
     slashcount = 0;
     for (i = 0; i < input.length(); i++) {
@@ -196,28 +196,28 @@ void AddressValidator::fixup(QString &input) const {
     clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
     clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-        // Remove double dots.
+    // Remove double dots.
     do {
         l = clean.length();
         clean.replace(QRegExp("\\.\\."), QString("."));
     } while (l != clean.length());
 
-        // Do we still have a string?
+    // Do we still have a string?
     if (clean.length() == 0) {
         input = "0.0.0.0";  // This should not match much.
         return;
     }
 
-        // Look at the first character and take a guess as to
-        // what kind of value the user attempted to enter.
+    // Look at the first character and take a guess as to
+    // what kind of value the user attempted to enter.
     if (clean.at(0).isDigit()) {
-            // Ok, we expect some kind of IP address maybe with a netmask.
+        // Ok, we expect some kind of IP address maybe with a netmask.
         clean.replace(QRegExp("[A-Za-z-]"), QString(""));   // Kill any funny chars.
 
         clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
         clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-            // Remove double dots.
+        // Remove double dots.
         do {
             l = clean.length();
             clean.replace(QRegExp("\\.\\."), QString("."));
@@ -257,7 +257,7 @@ void AddressValidator::fixup(QString &input) const {
                 }
                 tmp.append(QString::number(ipbyte));
             } else {
-                    // Expecting a dotted quad netmask.
+                // Expecting a dotted quad netmask.
                 tmp.append("/");
                 i = 0;
                 while (snarfnumber.exactMatch(mask) && i != 4) {
@@ -316,7 +316,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(input)) {
         return Invalid;
     }
@@ -325,7 +325,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(input)) {
         ipbyte = iptest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -346,7 +346,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(input)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -422,17 +422,17 @@ void IPValidator::fixup(QString &input) const {
     int pos;
     bool ok;
 
-        // This is real DWIM (Do What I Mean) code.
-        // Somehow it is meant to take what the user entered and work out
-        // what they meant and then correct the entered string.
-        // It's just a bunch of guesses, hunches and heristics.
+    // This is real DWIM (Do What I Mean) code.
+    // Somehow it is meant to take what the user entered and work out
+    // what they meant and then correct the entered string.
+    // It's just a bunch of guesses, hunches and heristics.
 
     if (input.isNull()) {    // Just in case.
         input = "0.0.0.0";
         return;
     }
 
-        // Filter out any bad characters.
+    // Filter out any bad characters.
     clean = "";
     slashcount = 0;
     for (i = 0; i < input.length(); i++) {
@@ -450,26 +450,26 @@ void IPValidator::fixup(QString &input) const {
     clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
     clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-        // Remove double dots.
+    // Remove double dots.
     do {
         l = clean.length();
         clean.replace(QRegExp("\\.\\."), QString("."));
     } while (l != clean.length());
 
-        // Do we still have a string?
+    // Do we still have a string?
     if (clean.length() == 0) {
         input = "0.0.0.0";  // This should not match much.
         return;
     }
 
-        // Look at the first character and take a guess as to
-        // what kind of value the user attempted to enter.
+    // Look at the first character and take a guess as to
+    // what kind of value the user attempted to enter.
     if (clean.at(0).isDigit()) {
-            // Ok, we expect some kind of IP address maybe with a netmask.
+        // Ok, we expect some kind of IP address maybe with a netmask.
         clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
         clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-            // Remove double dots.
+        // Remove double dots.
         do {
             l = clean.length();
             clean.replace(QRegExp("\\.\\."), QString("."));
@@ -500,7 +500,7 @@ void IPValidator::fixup(QString &input) const {
         tmp.replace(QRegExp("\\.$"), QString(""));
 
         if (mask.length() != 0) { // We still have not consumed all the input.
-                                // There must be some kind of netmask left.
+            // There must be some kind of netmask left.
             if (mask.contains('.') == 0) {    // It must be a single number netmask.
                 tmp.append("/");
                 ipbyte = mask.toLong();
@@ -509,7 +509,7 @@ void IPValidator::fixup(QString &input) const {
                 }
                 tmp.append(QString::number(ipbyte));
             } else {
-                    // Expecting a dotted quad netmask.
+                // Expecting a dotted quad netmask.
                 tmp.append("/");
                 i = 0;
                 while (snarfnumber.exactMatch(mask) && i != 4) {
@@ -675,23 +675,23 @@ void GuideDogApp::syncGUIFromDoc() {
     ui->descriptionedit->setText(doc->description);
     ui->disablecheckbox->setChecked(doc->isDisabled());
 
-        // Populate the nomasq list box.
+    // Populate the nomasq list box.
     ui->nomasqlistbox->clear();
     for (i = 0; i < doc->nomasqueradelist.count(); i++) {
         ui->nomasqlistbox->addItem(doc->nomasqueradelist.at(i).getAddress());
     }
-        // Select the first item.
+    // Select the first item.
     if (doc->nomasqueradelist.count() != 0) {
         ui->nomasqlistbox->setCurrentRow(0);
         ui->nomasqlineedit->setText(doc->nomasqueradelist.at(ui->nomasqlistbox->currentRow()).getAddress());
     }
 
-        // Populate the forward rule box.
+    // Populate the forward rule box.
     ui->forwardlistbox->clear();
     for (i = 0; i < doc->forwardrulelist.count(); i++) {
         ui->forwardlistbox->addItem(doc->forwardrulelist.at(i).getSummary());
     }
-        // Select the first item.    
+    // Select the first item.
     if (doc->forwardrulelist.count() != 0) {
         ui->forwardlistbox->setCurrentRow(0);
         
@@ -799,14 +799,14 @@ void GuideDogApp::slotCancel() {
     QMessageBox::StandardButton reply;
 
     if (waspreviousconfiguration &&  systemconfigmodified) {
-            // This is where things become complex.
-            // Should we try to restore things to how they were before this program started?
+        // This is where things become complex.
+        // Should we try to restore things to how they were before this program started?
         reply = QMessageBox::warning(this, tr("Warning - Guidedog"),
             tr("The system's routing configuration has been modified.\n\n"
             "Shall I restore it to the previous configuration?\n\n"
             "These changes may disrupt current network connections."),
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-            // "Yes, revert to the previous settings."
+        // "Yes, revert to the previous settings."
         switch(reply) {
             case QMessageBox::Yes:
                 openDefault();
@@ -816,18 +816,18 @@ void GuideDogApp::slotCancel() {
                 }
                 break;
 
-                // "Just leave the settings alone and piss off!!"
+            // "Just leave the settings alone and piss off!!"
             case QMessageBox::No:
                 saveOptions();
                 accept();
                 break;
 
-                // "Forget I ever pressed the Cancel button."
+            // "Forget I ever pressed the Cancel button."
             default:
                 break;
         }
     } else {
-            // Simple Cancel.
+        // Simple Cancel.
         saveOptions();
         accept();
     }	
@@ -859,6 +859,7 @@ void GuideDogApp::slotRouting(bool on) {
     enabledGUIStuff();
     updatinggui = false;
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotMasquerade(bool on) {
     if (updatinggui) return;
@@ -869,6 +870,7 @@ void GuideDogApp::slotMasquerade(bool on) {
     enabledGUIStuff();
     updatinggui = false;
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotMasqueradeFTP(bool on) {
     if (updatinggui) return;
@@ -876,6 +878,7 @@ void GuideDogApp::slotMasqueradeFTP(bool on) {
     doc->setMasqueradeFTP(on);
     updatinggui = false;
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotMasqueradeIRC(bool on) {
     if (updatinggui) return;
@@ -929,7 +932,7 @@ void GuideDogApp::slotImportButton() {
 
     tmpdoc = new GuidedogDoc();
     if (tmpdoc->openScript(filename, errorstring) == false) {
-            // Stick up a good ol' error message.
+        // Stick up a good ol' error message.
         QMessageBox::critical(this,
             tr("Error - Guidedog"),
             QString(tr("Guidedog was unable to read the file at %1 as being a Guidedog script.\n"
@@ -940,13 +943,14 @@ void GuideDogApp::slotImportButton() {
         return;
     }
 
-        // That loaded ok. Re-configure the GUI.
+    // That loaded ok. Re-configure the GUI.
 
     delete doc;     //Switcherroo
     doc = tmpdoc;
     syncGUIFromDoc();
     updatinggui = false;
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotExportButton() {
     QString filename, errorstring;
@@ -968,6 +972,7 @@ void GuideDogApp::slotExportButton() {
     updatinggui = false;
 
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void GuideDogApp::slotDescriptionChanged() {
     if (updatinggui) return;

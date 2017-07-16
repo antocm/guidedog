@@ -70,7 +70,7 @@ IPRangeType IPRange::guessType() {
     bool ok;
     long ipbyte;
         
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(address)) {
         return invalid;
     }
@@ -79,12 +79,12 @@ IPRangeType IPRange::guessType() {
         return invalid;
     }
 
-        // Test against the domainname regexp.
+    // Test against the domainname regexp.
     if (domainnametest.exactMatch(address)) {
         return domainname;
     }
     
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(address)) {
         ipbyte = iptest.cap(1).toLong(&ok);    // Yep, it returns char *.
         if (ipbyte < 0 || ipbyte > 255) {
@@ -105,7 +105,7 @@ IPRangeType IPRange::guessType() {
         return ip;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(address)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);    // Yep, it returns char *.
         if (ipbyte < 0 || ipbyte > 255) {
