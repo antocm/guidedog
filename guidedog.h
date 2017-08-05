@@ -37,7 +37,7 @@
 #endif
 
 #define SYSTEM_RC_GUIDEDOG "/etc/rc.guidedog"
-#define GUIDEDOG_VERSION "1.2.0"
+#define GUIDEDOG_VERSION "1.3.0"
 
 
 /*!
@@ -82,19 +82,16 @@ public:
     explicit GuideDogApp(QWidget *parent = 0);
     ~GuideDogApp();
 
-    // bool initialize(bool god);
     bool initialize();
-    void openDefault();
-    bool applyScript(bool warnfirst);
-    bool resetSystemConfiguration();
+    void show();
 
 protected:
-    void saveOptions();
+    void saveAppOptions();
     void readOptions();
 
 public slots:
     // Dialog main buttons
-    void slotOk();              // Writes, executes and exits
+    void slotApplySave();       // Writes, executes and exits
     void slotApply();           // Execute only
     void slotClose();           // Close only
     void slotAbout();
@@ -146,11 +143,18 @@ private:
 
     GuidedogDoc *doc;
     bool updatinggui;
+    bool isSuperUser;
 
     void syncGUIFromDoc();
 
     void enabledGUIStuff();
     void setForwardRule(const GuidedogPortForwardRule *rule);
+    void checkRootPrivileges();
+
+    bool applyScript(bool warnfirst);
+    bool saveScript();
+    void openDefault();
+    bool resetSystemConfiguration();
 
     Ui::GuideDogApp *ui;
     // The widgets that were previously here have been replaced by the ones in the ui

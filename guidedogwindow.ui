@@ -627,7 +627,7 @@
               <item row="1" column="1">
                <widget class="QRadioButton" name="newspecifyradio">
                 <property name="text">
-                 <string>Specify:</string>
+                 <string>Specif&amp;y:</string>
                 </property>
                </widget>
               </item>
@@ -806,7 +806,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="okButton">
+      <widget class="QPushButton" name="applyButton">
+       <property name="text">
+        <string>&amp;Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveApplyButton">
        <property name="toolTip">
         <string/>
        </property>
@@ -814,14 +821,7 @@
         <string/>
        </property>
        <property name="text">
-        <string>&amp;OK</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="applyButton">
-       <property name="text">
-        <string>&amp;Apply</string>
+        <string>&amp;Save &amp;&amp; Apply</string>
        </property>
       </widget>
      </item>

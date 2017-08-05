@@ -35,7 +35,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    ui->guidedogLabel->text() = GUIDEDOG_VERSION;
+    ui->guidedogLabel->setText(QString("Guidedog ").append(GUIDEDOG_VERSION));
 }
 
 

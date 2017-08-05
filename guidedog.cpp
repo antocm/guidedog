@@ -27,6 +27,7 @@
 #include "guidedogdoc.h"
 #include "aboutdialog.h"
 
+#include <unistd.h>
 #include <QGroupBox>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -616,7 +617,7 @@ bool GuideDogApp::initialize() {
     // If not running as root, only import export features available
     // superusermode = god;
     // if (!superusermode) {
-    //     ui->okButton->setEnabled(false);
+    //     ui->saveApplyButton->setEnabled(false);
     //     ui->applyButton->setEnabled(false);
     // }
 
@@ -677,16 +678,17 @@ bool GuideDogApp::initialize() {
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
     ui->applyButton->setToolTip("Apply iptables rules");
-    connect(ui->okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-    ui->okButton->setToolTip("Save and apply iptables rules and exit");
+    connect(ui->saveApplyButton, SIGNAL(clicked()), this, SLOT(slotApplySave()));
+    ui->saveApplyButton->setToolTip("Save and apply iptables rules and exit");
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(slotClose()));
     ui->closeButton->setToolTip("Just exit");
 	
-	readOptions();
+    readOptions();
 	openDefault();
     updatinggui = true;
     syncGUIFromDoc();
     updatinggui = false;
+
     return true;
 }
 
@@ -695,7 +697,7 @@ bool GuideDogApp::initialize() {
  * \brief GuideDogApp::saveOptions
  * Saves the guidedog application options
  */
-void GuideDogApp::saveOptions() {
+void GuideDogApp::saveAppOptions() {
     QSettings config("Guidedog", "Guidedog");
 
     config.setValue("General/Geometry", size());
@@ -765,6 +767,16 @@ void GuideDogApp::syncGUIFromDoc() {
         }
     }
     enabledGUIStuff();
+}
+
+
+/*!
+ * \brief GuideDogApp::show
+ * Shown the dialog window, then check root privileges
+ */
+void GuideDogApp::show() {
+    QDialog::show();
+    checkRootPrivileges();
 }
 
 
@@ -848,25 +860,34 @@ void GuideDogApp::enabledGUIStuff() {
 
 
 /*!
- * \brief GuideDogApp::slotOk writes and applies script and exit application
+ * \brief GuideDogApp::checkRootPrivileges
+ * Checks if guidedog ir running as root
+ */
+void GuideDogApp::checkRootPrivileges() {
+    if (getuid() != 0) {
+        isSuperUser = false;
+        QMessageBox::information(0, QObject::tr("Information - Guidedog"),
+            QObject::tr(
+            "Since you do not have superuser privileges, Guidedog will\n"
+            "ask for root credentials when needed.\n"));
+    } else {
+        // Is current user is root, flag it
+        isSuperUser = true;
+    }
+}
+
+
+/*!
+ * \brief GuideDogApp::slotApplySave writes and applies script and exit application
  * Writes the guidedog script to the defined system file and
  * Runs the guidedog script (applies the iptables rules to the running system)
  * Exits.
  */
-void GuideDogApp::slotOk() {
-	QString errorstring;
-    QString filename(SYSTEM_RC_GUIDEDOG);
-
-    // Now the script gets written into filesystem
-    if (doc->saveScript(filename, errorstring) == false) {
-        QMessageBox::critical(this, tr("Error - Guidedog"),
-            QString(tr("An error occurred while writing the script to disk.\n\n"
-            "(Detailed message: \"%1\")")).arg(errorstring));
-		return;
-	}
-    if (applyScript(true)) {    // Applies the script to running system
-        saveOptions();          // Save application options
-        accept();               // Exits
+void GuideDogApp::slotApplySave() {
+    saveScript();                   // Copies to system location
+    if (applyScript(true)) {        // Applies the script to running system
+        saveAppOptions();           // Save application options
+        accept();                   // Exits
 	}
 }
 
@@ -893,14 +914,14 @@ void GuideDogApp::slotClose() {
             case QMessageBox::Yes:
                 openDefault();
         		if (applyScript(false)) {
-                    saveOptions();
+                    saveAppOptions();
                     accept();
                 }
                 break;
 
             // "Just leave the settings alone and piss off!!"
             case QMessageBox::No:
-                saveOptions();
+                saveAppOptions();
                 accept();
                 break;
 
@@ -910,7 +931,7 @@ void GuideDogApp::slotClose() {
         }
     } else {
         // Simple Quit.
-        saveOptions();
+        saveAppOptions();
         accept();
     }	
 }
@@ -1539,7 +1560,7 @@ bool GuideDogApp::applyScript(bool warnfirst) {
         // Consider this line instead of exporting the variable in the shell
         // Proposed by Felix Geyer <debfx-pkg@fobos.de>  Sat, 08 Jan 2011 15:59:51 +0100
         // putenv("GUIDEDOG_VERBOSE=1");
-        cr.run(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
+        cr.pkexecRun(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
         systemconfigmodified = true;
         commandrunnersize = cr.size();
         return true;
@@ -1574,6 +1595,60 @@ bool GuideDogApp::applyScript(bool warnfirst) {
 
 
 /*!
+ * \brief GuideDogApp::saveScript
+ * \return
+ */
+bool GuideDogApp::saveScript() {
+    QString errorstring;
+
+    if (isSuperUser) {
+        QString filename(SYSTEM_RC_GUIDEDOG);
+        // Now the script gets written into filesystem
+        if (doc->saveScript(filename, errorstring) == false) {
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                QString(tr("An error occurred while writing the script to disk.\n\n"
+                "(Detailed message: \"%1\")")).arg(errorstring));
+            return false;
+        }
+    } else {
+        // Not as root
+        // Create a temporary file
+        QTemporaryFile tmpfile;
+
+        if (!tmpfile.open()) {
+            errorstring = QObject::tr("An error occurred while writing '%1'. The operating system has this to report about the error: %2")
+                .arg(tmpfile.fileName()).arg(strerror(tmpfile.error()));
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                QString(tr("An error occurred while writing temporary file to disk.\n\n"
+                "(Detailed message: \"%1\")")).arg(errorstring));
+            return false;
+        }
+        CommandRunner cr(this);
+        QTextStream out(&tmpfile);
+        if (doc->writeScript(out) == false) {
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                tr("An error occurred while writing the script to disk.\n"));
+             return false;
+        }
+        tmpfile.close();
+        tmpfile.setPermissions(tmpfile.fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner
+            | QFileDevice::ReadGroup | QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::ExeOther);
+
+        // Now we run the tmp script in our super friendly window.
+        if (!commandrunnersize.isEmpty()) {
+             cr.resize(commandrunnersize);
+        }
+        cr.setWindowTitle(tr("Save guidedog script"));
+        cr.setHeading(tr("Saving %1...\n\nOutput:").arg(SYSTEM_RC_GUIDEDOG));
+        // Use command shell with pkexec to move it to system location
+        cr.pkexecRun(QString("cp -v " + tmpfile.fileName() + " " + SYSTEM_RC_GUIDEDOG + "\n"));
+        commandrunnersize = cr.size();
+    }
+    return true;
+}
+
+
+/*!
  * \brief GuideDogApp::resetSystemConfiguration
  * \return
  * Resets system iptables as a BASH script
@@ -1587,7 +1662,7 @@ bool GuideDogApp::resetSystemConfiguration() {
 
     cr.setWindowTitle(tr("Resetting system configuration"));
     cr.setHeading(tr("Resetting system configuration...\n\nOutput:"));
-    cr.run(QString(
+    cr.pkexecRun(QString(
         "echo \"Using iptables.\"\n"
         "echo \"Resetting nat table rules.\"\n"
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin\n"

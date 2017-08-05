@@ -108,8 +108,26 @@ void CommandRunner::run(QString cmd) {
     outputview->setText(output);
     running = true;
     okbutton->setEnabled(false);
-    // Start a BASH shell
+    // Start a shell
     kid->start("/bin/sh", QStringList() << "-c" << command);
+    exec();
+}
+
+
+/*!
+ * \brief CommandRunner::pkexecRun
+ * \param cmd
+ * Runs command as root using pkexec
+ */
+void CommandRunner::pkexecRun(QString cmd) {
+    command = cmd;
+    output.truncate(0);
+    outputview->setText(output);
+    running = true;
+    okbutton->setEnabled(false);
+    // Start a shell in pkexec
+    kid->start("pkexec", QStringList() << "--disable-internal-agent" << "/bin/sh" << "-c" << command);
+    //kid->start("pkexec" "--disable-internal-agent" "/bin/sh", QStringList() << "-c" << command);
     exec();
 }
 
