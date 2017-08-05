@@ -29,8 +29,15 @@
 
 #include <QString>
 
+/*!
+ * \brief The IPRangeType enum
+ */
 enum IPRangeType {invalid, localmachine, domainname, ip, iprange};
 
+
+/*!
+ * \brief The IPRange class
+ */
 class IPRange {
 public:
     IPRange();

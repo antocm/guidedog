@@ -26,7 +26,11 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::CommandRunner
+ * \param parent
+ */
 CommandRunner::CommandRunner(QWidget *parent) : QDialog(parent) {
     QVBoxLayout *verticalLayoutMain;
     QVBoxLayout *verticalLayout;
@@ -76,29 +80,63 @@ CommandRunner::CommandRunner(QWidget *parent) : QDialog(parent) {
     connect(kid, SIGNAL(readyReadStandardError()), this, SLOT(slotReceivedStderr()));
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::~CommandRunner
+ */
 CommandRunner::~CommandRunner() {
     delete kid;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::setHeading
+ * \param heading
+ */
 void CommandRunner::setHeading(const QString &heading) {
     headinglabel->setText(heading);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::run
+ * \param cmd
+ */
 void CommandRunner::run(QString cmd) {
     command = cmd;
     output.truncate(0);
     outputview->setText(output);
     running = true;
     okbutton->setEnabled(false);
-    // Start a BASH shell
+    // Start a shell
     kid->start("/bin/sh", QStringList() << "-c" << command);
     exec();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::pkexecRun
+ * \param cmd
+ * Runs command as root using pkexec
+ */
+void CommandRunner::pkexecRun(QString cmd) {
+    command = cmd;
+    output.truncate(0);
+    outputview->setText(output);
+    running = true;
+    okbutton->setEnabled(false);
+    // Start a shell in pkexec
+    kid->start("pkexec", QStringList() << "--disable-internal-agent" << "/bin/sh" << "-c" << command);
+    //kid->start("pkexec" "--disable-internal-agent" "/bin/sh", QStringList() << "-c" << command);
+    exec();
+}
+
+
+/*!
+ * \brief CommandRunner::slotKidExited
+ * \param exitCode
+ * \param exitStatus
+ */
 void CommandRunner::slotKidExited(int exitCode, QProcess::ExitStatus exitStatus) {
     if (exitStatus == QProcess::NormalExit) {
         qDebug("Command executed normally. Exit code is %d", exitCode);
@@ -109,21 +147,30 @@ void CommandRunner::slotKidExited(int exitCode, QProcess::ExitStatus exitStatus)
     okbutton->setEnabled(true);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotReceivedStdout
+ */
 void CommandRunner::slotReceivedStdout() {
     output.append(kid->readAllStandardOutput());
     outputview->setText(output);
     outputview->ensureCursorVisible();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotReceivedStderr
+ */
 void CommandRunner::slotReceivedStderr() {
     output.append(kid->readAllStandardError());
     outputview->setText(output);
     outputview->ensureCursorVisible();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotOkClicked
+ */
 void CommandRunner::slotOkClicked() {
     done(0);
 }

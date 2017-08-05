@@ -484,7 +484,7 @@
               <item row="0" column="1" colspan="2">
                <widget class="QRadioButton" name="originalthismachineradio">
                 <property name="text">
-                 <string>This machine</string>
+                 <string>This &amp;machine</string>
                 </property>
                </widget>
               </item>
@@ -504,7 +504,7 @@
               <item row="1" column="1">
                <widget class="QRadioButton" name="originalspecifyradio">
                 <property name="text">
-                 <string>Specify:</string>
+                 <string>Sp&amp;ecify:</string>
                 </property>
                </widget>
               </item>
@@ -607,7 +607,7 @@
               <item row="0" column="1" colspan="2">
                <widget class="QRadioButton" name="newthismachineradio">
                 <property name="text">
-                 <string>This machine</string>
+                 <string>Th&amp;is machine</string>
                 </property>
                </widget>
               </item>
@@ -627,7 +627,7 @@
               <item row="1" column="1">
                <widget class="QRadioButton" name="newspecifyradio">
                 <property name="text">
-                 <string>Specify:</string>
+                 <string>Specif&amp;y:</string>
                 </property>
                </widget>
               </item>
@@ -786,6 +786,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="aboutButton">
+       <property name="text">
+        <string>A&amp;bout</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -799,20 +806,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="aboutButton">
-       <property name="text">
-        <string>A&amp;bout</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="okButton">
-       <property name="text">
-        <string>&amp;OK</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="applyButton">
        <property name="text">
         <string>&amp;Apply</string>
@@ -820,9 +813,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="cancelButton">
+      <widget class="QPushButton" name="saveApplyButton">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
        <property name="text">
-        <string>&amp;Cancel</string>
+        <string>&amp;Save &amp;&amp; Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>&amp;Close</string>
        </property>
       </widget>
      </item>

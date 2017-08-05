@@ -30,6 +30,10 @@
 
 #include <QLineEdit>
 
+
+/*!
+ * \brief The SimeLineEdit class
+ */
 class SimeLineEdit : public QLineEdit {
 public:
     SimeLineEdit(QWidget *parent);

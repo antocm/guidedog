@@ -26,10 +26,15 @@
 
 #include <QDialog>
 
+
 namespace Ui {
 class AboutDialog;
 }
 
+
+/*!
+ * \brief The AboutDialog class
+ */
 class AboutDialog : public QDialog
 {
     Q_OBJECT

@@ -25,32 +25,54 @@
 
 #include <QRegExp>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::IPRange
+ */
 IPRange::IPRange() {
     gottype = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::IPRange
+ * \param a
+ */
 IPRange::IPRange(const QString &a) {
     setAddress(a);
 }
-        
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief IPRange::~IPRange
+ */
 IPRange::~IPRange() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::setAddress
+ * \param a
+ */
 void IPRange::setAddress(const QString &a) {
     address = a;
     gottype = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::getAddress
+ * \return
+ */
 QString IPRange::getAddress() const {
     return address;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::getType
+ * \return
+ */
 IPRangeType IPRange::getType() {
     if (!gottype) {
         type = guessType();
@@ -59,7 +81,11 @@ IPRangeType IPRange::getType() {
     return type;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::guessType
+ * \return
+ */
 IPRangeType IPRange::guessType() {
     QRegExp sanity("^[0-9a-zA-Z./-]*$");
     QRegExp domainnametest("^([a-zA-Z0-9-]+\\.)+[a-zA-Z0-9-]+$");
@@ -70,7 +96,7 @@ IPRangeType IPRange::guessType() {
     bool ok;
     long ipbyte;
         
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(address)) {
         return invalid;
     }
@@ -79,12 +105,12 @@ IPRangeType IPRange::guessType() {
         return invalid;
     }
 
-        // Test against the domainname regexp.
+    // Test against the domainname regexp.
     if (domainnametest.exactMatch(address)) {
         return domainname;
     }
     
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(address)) {
         ipbyte = iptest.cap(1).toLong(&ok);    // Yep, it returns char *.
         if (ipbyte < 0 || ipbyte > 255) {
@@ -105,7 +131,7 @@ IPRangeType IPRange::guessType() {
         return ip;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(address)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);    // Yep, it returns char *.
         if (ipbyte < 0 || ipbyte > 255) {

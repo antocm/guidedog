@@ -26,17 +26,28 @@
 #include <QValidator>
 #include <QKeyEvent>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief SimeLineEdit::SimeLineEdit Constructor
+ * \param parent
+ */
 SimeLineEdit::SimeLineEdit(QWidget *parent) : QLineEdit(parent) {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief SimeLineEdit::~SimeLineEdit
+ */
 SimeLineEdit::~SimeLineEdit() {
 }
 
-///////////////////////////////////////////////////////////////////////////
-// This is just a small modification for when the user hits the return key.
-// We just give the focus back to the parent widget.
+
+/*!
+ * \brief SimeLineEdit::keyPressEvent
+ * \param e
+ * This is just a small modification for when the user hits the return key.
+ * We just give the focus back to the parent widget.
+ */
 void SimeLineEdit::keyPressEvent(QKeyEvent *e) {
     QString t;
     
@@ -46,7 +57,7 @@ void SimeLineEdit::keyPressEvent(QKeyEvent *e) {
         e->accept();
         if (t != text()) {
             emit textChanged(text());   // This is bullshit. If keyPressEvent() changed the text
-                // then I expect a textChanged() signal to be emitted. I should not have to DIY.
+            // then I expect a textChanged() signal to be emitted. I should not have to DIY.
         }
         if (parentWidget() != 0) {
             parentWidget()->setFocus();
@@ -54,7 +65,10 @@ void SimeLineEdit::keyPressEvent(QKeyEvent *e) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief SimeLineEdit::focusOutEvent
+ */
 void SimeLineEdit::focusOutEvent() {
     const QValidator *v;
     QString t;

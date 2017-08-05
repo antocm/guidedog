@@ -29,16 +29,17 @@
 #include <QLabel>
 #include <QTextEdit>
 
-/**
-  *@author Simon Edwards
-  */
 
+/*!
+ * \brief The CommandRunner class
+ */
 class CommandRunner : public QDialog  {
     Q_OBJECT
 public:
     CommandRunner(QWidget *parent = 0);
 	~CommandRunner();
     void run(QString cmd);
+    void pkexecRun(QString cmd);
     void setHeading(const QString &heading);
 
 private slots:

@@ -30,6 +30,10 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 
+
+/*!
+ * \brief The GuidedogPortForwardRule class
+ */
 class GuidedogPortForwardRule {
 public:
     GuidedogPortForwardRule();
@@ -45,6 +49,10 @@ public:
     QString getSummary() const;
 };
   
+
+/*!
+ * \brief The GuidedogDoc class
+ */
 class GuidedogDoc {
 public: 
     GuidedogDoc();

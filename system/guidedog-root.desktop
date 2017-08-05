@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Guidedog as root
-GenericName=Run guidedog as user root
-Comment=Advanced routing configuration utiliy
-Keywords=iptables;forward
-Exec=gksudo guidedog 
-Icon=guidedog.png
-Terminal=0

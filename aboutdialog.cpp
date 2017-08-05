@@ -21,21 +21,36 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "guidedog.h"
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
+
+/*!
+ * \brief AboutDialog::AboutDialog
+ * \param parent
+ */
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
+    ui->guidedogLabel->setText(QString("Guidedog ").append(GUIDEDOG_VERSION));
 }
 
+
+/*!
+ * \brief AboutDialog::~AboutDialog
+ */
 AboutDialog::~AboutDialog()
 {
     delete ui;
 }
 
+
+/*!
+ * \brief AboutDialog::on_closeButton_clicked
+ */
 void AboutDialog::on_closeButton_clicked()
 {
     close();

@@ -27,6 +27,7 @@
 #include "guidedogdoc.h"
 #include "aboutdialog.h"
 
+#include <unistd.h>
 #include <QGroupBox>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -34,19 +35,33 @@
 #include <QSettings>
 #include <QDesktopServices>
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class AddressValidator
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::AddressValidator Constructor
+ * \param parent
+ */
 AddressValidator::AddressValidator(QWidget *parent) : QValidator(parent) {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::~AddressValidator Destructor
+ */
 AddressValidator::~AddressValidator() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::validate
+ * \param input
+ * \param pos
+ * \return
+ */
 QValidator::State AddressValidator::validate(QString &input, int & pos) const {
     Q_UNUSED(pos);
     QRegExp sanity("^[0-9a-zA-Z./-]*$");
@@ -61,7 +76,7 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(input)) {
         return Invalid;
     }
@@ -70,12 +85,12 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Test against the domainname regexp.
+    // Test against the domainname regexp.
     if (domainnametest.exactMatch(input)) {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(input)) {
         ipbyte = iptest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -96,7 +111,7 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(input)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -158,7 +173,11 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
     return Intermediate;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::fixup
+ * \param input
+ */
 void AddressValidator::fixup(QString &input) const {
     QString clean, tmp, mask;
     int i, slashcount;
@@ -168,17 +187,17 @@ void AddressValidator::fixup(QString &input) const {
     int l, pos;
     bool ok;
 
-        // This is real DWIM (Do What I Mean) code.
-        // Somehow it is meant to take what the user entered and work out
-        // what they meant and then correct the entered string.
-        // It's just a bunch of guesses, hunches and heristics.
+    // This is real DWIM (Do What I Mean) code.
+    // Somehow it is meant to take what the user entered and work out
+    // what they meant and then correct the entered string.
+    // It's just a bunch of guesses, hunches and heristics.
 
     if (input.isNull()) {    // Just in case.
         input = "0.0.0.0";
         return;
     }
 
-        // Filter out any bad characters.
+    // Filter out any bad characters.
     clean = "";
     slashcount = 0;
     for (i = 0; i < input.length(); i++) {
@@ -196,28 +215,28 @@ void AddressValidator::fixup(QString &input) const {
     clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
     clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-        // Remove double dots.
+    // Remove double dots.
     do {
         l = clean.length();
         clean.replace(QRegExp("\\.\\."), QString("."));
     } while (l != clean.length());
 
-        // Do we still have a string?
+    // Do we still have a string?
     if (clean.length() == 0) {
         input = "0.0.0.0";  // This should not match much.
         return;
     }
 
-        // Look at the first character and take a guess as to
-        // what kind of value the user attempted to enter.
+    // Look at the first character and take a guess as to
+    // what kind of value the user attempted to enter.
     if (clean.at(0).isDigit()) {
-            // Ok, we expect some kind of IP address maybe with a netmask.
+        // Ok, we expect some kind of IP address maybe with a netmask.
         clean.replace(QRegExp("[A-Za-z-]"), QString(""));   // Kill any funny chars.
 
         clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
         clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-            // Remove double dots.
+        // Remove double dots.
         do {
             l = clean.length();
             clean.replace(QRegExp("\\.\\."), QString("."));
@@ -257,7 +276,7 @@ void AddressValidator::fixup(QString &input) const {
                 }
                 tmp.append(QString::number(ipbyte));
             } else {
-                    // Expecting a dotted quad netmask.
+                // Expecting a dotted quad netmask.
                 tmp.append("/");
                 i = 0;
                 while (snarfnumber.exactMatch(mask) && i != 4) {
@@ -290,19 +309,33 @@ void AddressValidator::fixup(QString &input) const {
     return;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class IPValidator
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::IPValidator
+ * \param parent
+ */
 IPValidator::IPValidator(QWidget *parent) : QValidator(parent) {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::~IPValidator
+ */
 IPValidator::~IPValidator() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::validate
+ * \param input
+ * \param pos
+ * \return
+ */
 QValidator::State IPValidator::validate(QString &input, int & pos) const {
     Q_UNUSED(pos);
     QRegExp sanity("^[0-9./]*$");
@@ -316,7 +349,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Smoke text
+    // Smoke text
     if (!sanity.exactMatch(input)) {
         return Invalid;
     }
@@ -325,7 +358,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Intermediate;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (iptest.exactMatch(input)) {
         ipbyte = iptest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -346,7 +379,7 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
         return Acceptable;
     }
 
-        // Ok, now lets try the IP address regexp.
+    // Ok, now lets try the IP address regexp.
     if (ipmaskedtest.exactMatch(input)) {
         ipbyte = ipmaskedtest.cap(1).toLong(&ok);
         if (ipbyte < 0 || ipbyte > 255) {
@@ -408,7 +441,11 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
     return Intermediate;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::fixup
+ * \param input
+ */
 void IPValidator::fixup(QString &input) const {
     QString clean;
     QString tmp;
@@ -422,17 +459,17 @@ void IPValidator::fixup(QString &input) const {
     int pos;
     bool ok;
 
-        // This is real DWIM (Do What I Mean) code.
-        // Somehow it is meant to take what the user entered and work out
-        // what they meant and then correct the entered string.
-        // It's just a bunch of guesses, hunches and heristics.
+    // This is real DWIM (Do What I Mean) code.
+    // Somehow it is meant to take what the user entered and work out
+    // what they meant and then correct the entered string.
+    // It's just a bunch of guesses, hunches and heristics.
 
     if (input.isNull()) {    // Just in case.
         input = "0.0.0.0";
         return;
     }
 
-        // Filter out any bad characters.
+    // Filter out any bad characters.
     clean = "";
     slashcount = 0;
     for (i = 0; i < input.length(); i++) {
@@ -450,26 +487,26 @@ void IPValidator::fixup(QString &input) const {
     clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
     clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-        // Remove double dots.
+    // Remove double dots.
     do {
         l = clean.length();
         clean.replace(QRegExp("\\.\\."), QString("."));
     } while (l != clean.length());
 
-        // Do we still have a string?
+    // Do we still have a string?
     if (clean.length() == 0) {
         input = "0.0.0.0";  // This should not match much.
         return;
     }
 
-        // Look at the first character and take a guess as to
-        // what kind of value the user attempted to enter.
+    // Look at the first character and take a guess as to
+    // what kind of value the user attempted to enter.
     if (clean.at(0).isDigit()) {
-            // Ok, we expect some kind of IP address maybe with a netmask.
+        // Ok, we expect some kind of IP address maybe with a netmask.
         clean.replace(QRegExp("^\\.*"), QString(""));  // No dots at the start please.
         clean.replace(QRegExp("\\.*$"), QString(""));  // No dots at the end please.
 
-            // Remove double dots.
+        // Remove double dots.
         do {
             l = clean.length();
             clean.replace(QRegExp("\\.\\."), QString("."));
@@ -500,7 +537,7 @@ void IPValidator::fixup(QString &input) const {
         tmp.replace(QRegExp("\\.$"), QString(""));
 
         if (mask.length() != 0) { // We still have not consumed all the input.
-                                // There must be some kind of netmask left.
+            // There must be some kind of netmask left.
             if (mask.contains('.') == 0) {    // It must be a single number netmask.
                 tmp.append("/");
                 ipbyte = mask.toLong();
@@ -509,7 +546,7 @@ void IPValidator::fixup(QString &input) const {
                 }
                 tmp.append(QString::number(ipbyte));
             } else {
-                    // Expecting a dotted quad netmask.
+                // Expecting a dotted quad netmask.
                 tmp.append("/");
                 i = 0;
                 while (snarfnumber.exactMatch(mask) && i != 4) {
@@ -542,11 +579,16 @@ void IPValidator::fixup(QString &input) const {
     return;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class GuideDogApp
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::GuideDogApp Constructor
+ * \param parent
+ */
 GuideDogApp::GuideDogApp(QWidget *parent) : QDialog(parent), ui(new Ui::GuideDogApp) {
     setWindowTitle("Guidedog");
     doc = 0;
@@ -554,23 +596,30 @@ GuideDogApp::GuideDogApp(QWidget *parent) : QDialog(parent), ui(new Ui::GuideDog
     ui->setupUi(this);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::~GuideDogApp Desctructor
+ */
 GuideDogApp::~GuideDogApp() {
     delete doc;
     delete ui;
 }
 
-///////////////////////////////////////////////////////////////////////////
-bool GuideDogApp::initialize(bool god) {
+
+/*!
+ * \brief GuideDogApp::initialize
+ * \return
+ */
+bool GuideDogApp::initialize() {
     waspreviousconfiguration = false;
     systemconfigmodified = false;
 
     // If not running as root, only import export features available
-    superusermode = god;
-    if (!superusermode) {
-        ui->okButton->setEnabled(false);
-        ui->applyButton->setEnabled(false);
-    }
+    // superusermode = god;
+    // if (!superusermode) {
+    //     ui->saveApplyButton->setEnabled(false);
+    //     ui->applyButton->setEnabled(false);
+    // }
 
     doc = new GuidedogDoc();
 
@@ -624,23 +673,31 @@ bool GuideDogApp::initialize(bool god) {
     connect(ui->importbutton, SIGNAL(clicked()), this, SLOT(slotImportButton()));
     connect(ui->exportbutton, SIGNAL(clicked()), this, SLOT(slotExportButton()));
 
-    // Main buttons (Help, About, OK, Apply, Cancel)
+    // Main buttons (Help, About, OK, Apply, Close)
     connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(slotHelp()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
-    connect(ui->okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-    connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancel()));
+    ui->applyButton->setToolTip("Apply iptables rules");
+    connect(ui->saveApplyButton, SIGNAL(clicked()), this, SLOT(slotApplySave()));
+    ui->saveApplyButton->setToolTip("Save and apply iptables rules and exit");
+    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(slotClose()));
+    ui->closeButton->setToolTip("Just exit");
 	
-	readOptions();
+    readOptions();
 	openDefault();
     updatinggui = true;
     syncGUIFromDoc();
     updatinggui = false;
+
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
-void GuideDogApp::saveOptions() {
+
+/*!
+ * \brief GuideDogApp::saveOptions
+ * Saves the guidedog application options
+ */
+void GuideDogApp::saveAppOptions() {
     QSettings config("Guidedog", "Guidedog");
 
     config.setValue("General/Geometry", size());
@@ -648,7 +705,11 @@ void GuideDogApp::saveOptions() {
     config.sync();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::readOptions
+ * Reads the guidedog application options
+ */
 void GuideDogApp::readOptions() {
     QSettings config("Guidedog", "Guidedog");
 
@@ -664,7 +725,11 @@ void GuideDogApp::readOptions() {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::syncGUIFromDoc
+ * Synchronizes the GUI based on object states from the document
+ */
 void GuideDogApp::syncGUIFromDoc() {
     int i;
 
@@ -675,23 +740,23 @@ void GuideDogApp::syncGUIFromDoc() {
     ui->descriptionedit->setText(doc->description);
     ui->disablecheckbox->setChecked(doc->isDisabled());
 
-        // Populate the nomasq list box.
+    // Populate the nomasq list box.
     ui->nomasqlistbox->clear();
     for (i = 0; i < doc->nomasqueradelist.count(); i++) {
         ui->nomasqlistbox->addItem(doc->nomasqueradelist.at(i).getAddress());
     }
-        // Select the first item.
+    // Select the first item.
     if (doc->nomasqueradelist.count() != 0) {
         ui->nomasqlistbox->setCurrentRow(0);
         ui->nomasqlineedit->setText(doc->nomasqueradelist.at(ui->nomasqlistbox->currentRow()).getAddress());
     }
 
-        // Populate the forward rule box.
+    // Populate the forward rule box.
     ui->forwardlistbox->clear();
     for (i = 0; i < doc->forwardrulelist.count(); i++) {
         ui->forwardlistbox->addItem(doc->forwardrulelist.at(i).getSummary());
     }
-        // Select the first item.    
+    // Select the first item.
     if (doc->forwardrulelist.count() != 0) {
         ui->forwardlistbox->setCurrentRow(0);
         
@@ -704,7 +769,21 @@ void GuideDogApp::syncGUIFromDoc() {
     enabledGUIStuff();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::show
+ * Shown the dialog window, then check root privileges
+ */
+void GuideDogApp::show() {
+    QDialog::show();
+    checkRootPrivileges();
+}
+
+
+/*!
+ * \brief GuideDogApp::setForwardRule
+ * \param rule
+ */
 void GuideDogApp::setForwardRule(const GuidedogPortForwardRule *rule) {
 
     if (!rule) {
@@ -732,7 +811,10 @@ void GuideDogApp::setForwardRule(const GuidedogPortForwardRule *rule) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::enabledGUIStuff
+ */
 void GuideDogApp::enabledGUIStuff() {
     bool active, gotaddys, gotrules;
     GuidedogPortForwardRule rule;
@@ -776,80 +858,116 @@ void GuideDogApp::enabledGUIStuff() {
     
 }
 
-///////////////////////////////////////////////////////////////////////////
-void GuideDogApp::slotOk() {
-	QString errorstring;
-    QString filename(SYSTEM_RC_GUIDEDOG);
 
-    if (doc->saveScript(filename, errorstring) == false) {
-        QMessageBox::critical(this, tr("Error - Guidedog"),
-            QString(tr("An error occurred while writing the script to disk.\n\n"
-            "(Detailed message: \"%1\")")).arg(errorstring));
-		return;
-	}
-	if (applyScript(true)) {
-        saveOptions();
-        accept();
+/*!
+ * \brief GuideDogApp::checkRootPrivileges
+ * Checks if guidedog ir running as root
+ */
+void GuideDogApp::checkRootPrivileges() {
+    if (getuid() != 0) {
+        isSuperUser = false;
+        QMessageBox::information(0, QObject::tr("Information - Guidedog"),
+            QObject::tr(
+            "Since you do not have superuser privileges, Guidedog will\n"
+            "ask for root credentials when needed.\n"));
+    } else {
+        // Is current user is root, flag it
+        isSuperUser = true;
+    }
+}
+
+
+/*!
+ * \brief GuideDogApp::slotApplySave writes and applies script and exit application
+ * Writes the guidedog script to the defined system file and
+ * Runs the guidedog script (applies the iptables rules to the running system)
+ * Exits.
+ */
+void GuideDogApp::slotApplySave() {
+    saveScript();                   // Copies to system location
+    if (applyScript(true)) {        // Applies the script to running system
+        saveAppOptions();           // Save application options
+        accept();                   // Exits
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////
-void GuideDogApp::slotCancel() {
+
+/*!
+ * \brief GuideDogApp::slotClose
+ * Just exits. If script has been applied but never saved,
+ * the user may return to the original settings before guidedog started.
+ */
+void GuideDogApp::slotClose() {
     QString errorstring;
     QMessageBox::StandardButton reply;
 
-    if (waspreviousconfiguration &&  systemconfigmodified) {
-            // This is where things become complex.
-            // Should we try to restore things to how they were before this program started?
+    if (waspreviousconfiguration && systemconfigmodified) {
+        // This is where things become complex.
+        // Should we try to restore things to how they were before this program started?
         reply = QMessageBox::warning(this, tr("Warning - Guidedog"),
             tr("The system's routing configuration has been modified.\n\n"
             "Shall I restore it to the previous configuration?\n\n"
             "These changes may disrupt current network connections."),
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-            // "Yes, revert to the previous settings."
+        // "Yes, revert to the previous settings."
         switch(reply) {
             case QMessageBox::Yes:
                 openDefault();
         		if (applyScript(false)) {
-                    saveOptions();
+                    saveAppOptions();
                     accept();
                 }
                 break;
 
-                // "Just leave the settings alone and piss off!!"
+            // "Just leave the settings alone and piss off!!"
             case QMessageBox::No:
-                saveOptions();
+                saveAppOptions();
                 accept();
                 break;
 
-                // "Forget I ever pressed the Cancel button."
+            // "Forget I ever pressed the Quit button."
             default:
                 break;
         }
     } else {
-            // Simple Cancel.
-        saveOptions();
+        // Simple Quit.
+        saveAppOptions();
         accept();
     }	
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotApply
+ * Runs the guidedog script (applies the iptables rules to the running system)
+ */
 void GuideDogApp::slotApply() {
     applyScript(true);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAbout
+ * Shows the about dialog
+ */
 void GuideDogApp::slotAbout() {
     AboutDialog *aboutDialog = new AboutDialog(this);
     aboutDialog->show();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotHelp
+ */
 void GuideDogApp::slotHelp() {
     QDesktopServices::openUrl(QUrl("http://www.simonzone.com/software/guidedog/manual/", QUrl::TolerantMode));
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotRouting
+ * \param on
+ */
 void GuideDogApp::slotRouting(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -859,7 +977,12 @@ void GuideDogApp::slotRouting(bool on) {
     enabledGUIStuff();
     updatinggui = false;
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuideDogApp::slotMasquerade
+ * \param on
+ */
 void GuideDogApp::slotMasquerade(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -869,14 +992,24 @@ void GuideDogApp::slotMasquerade(bool on) {
     enabledGUIStuff();
     updatinggui = false;
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuideDogApp::slotMasqueradeFTP
+ * \param on
+ */
 void GuideDogApp::slotMasqueradeFTP(bool on) {
     if (updatinggui) return;
     updatinggui = true;
     doc->setMasqueradeFTP(on);
     updatinggui = false;
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuideDogApp::slotMasqueradeIRC
+ * \param on
+ */
 void GuideDogApp::slotMasqueradeIRC(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -884,7 +1017,11 @@ void GuideDogApp::slotMasqueradeIRC(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotForwardListBox
+ * \param item
+ */
 void GuideDogApp::slotForwardListBox(QListWidgetItem *item) {
     GuidedogPortForwardRule rule;
     
@@ -901,7 +1038,11 @@ void GuideDogApp::slotForwardListBox(QListWidgetItem *item) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDisableGuidedog
+ * \param on
+ */
 void GuideDogApp::slotDisableGuidedog(bool on) {
 
     if (updatinggui) return;
@@ -913,7 +1054,10 @@ void GuideDogApp::slotDisableGuidedog(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotImportButton
+ */
 void GuideDogApp::slotImportButton() {
     QString filename, errorstring;
     GuidedogDoc *tmpdoc;
@@ -929,7 +1073,7 @@ void GuideDogApp::slotImportButton() {
 
     tmpdoc = new GuidedogDoc();
     if (tmpdoc->openScript(filename, errorstring) == false) {
-            // Stick up a good ol' error message.
+        // Stick up a good ol' error message.
         QMessageBox::critical(this,
             tr("Error - Guidedog"),
             QString(tr("Guidedog was unable to read the file at %1 as being a Guidedog script.\n"
@@ -940,14 +1084,18 @@ void GuideDogApp::slotImportButton() {
         return;
     }
 
-        // That loaded ok. Re-configure the GUI.
+    // That loaded ok. Re-configure the GUI.
 
     delete doc;     //Switcherroo
     doc = tmpdoc;
     syncGUIFromDoc();
     updatinggui = false;
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuideDogApp::slotExportButton
+ */
 void GuideDogApp::slotExportButton() {
     QString filename, errorstring;
 
@@ -968,7 +1116,11 @@ void GuideDogApp::slotExportButton() {
     updatinggui = false;
 
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuideDogApp::slotDescriptionChanged
+ */
 void GuideDogApp::slotDescriptionChanged() {
     if (updatinggui) return;
     updatinggui = true;
@@ -978,7 +1130,11 @@ void GuideDogApp::slotDescriptionChanged() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNoMasqueradeListBox
+ * \param item
+ */
 void GuideDogApp::slotNoMasqueradeListBox(QListWidgetItem *item) {
     QString address;
 
@@ -993,7 +1149,10 @@ void GuideDogApp::slotNoMasqueradeListBox(QListWidgetItem *item) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewAddressButton
+ */
 void GuideDogApp::slotNewAddressButton() {
     if (updatinggui) return;
     updatinggui = true;
@@ -1007,7 +1166,10 @@ void GuideDogApp::slotNewAddressButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDeleteAddressButton
+ */
 void GuideDogApp::slotDeleteAddressButton() {
     int rowIndex;
         
@@ -1041,7 +1203,11 @@ void GuideDogApp::slotDeleteAddressButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAddressLineEdit
+ * \param s
+ */
 void GuideDogApp::slotAddressLineEdit(const QString &s) {
     int i;
 
@@ -1055,11 +1221,17 @@ void GuideDogApp::slotAddressLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAddressLineEditReturn
+ */
 void GuideDogApp::slotAddressLineEditReturn() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewForwardButton
+ */
 void GuideDogApp::slotNewForwardButton() {
     GuidedogPortForwardRule newrule;
 
@@ -1076,7 +1248,10 @@ void GuideDogApp::slotNewForwardButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDeleteForwardButton
+ */
 void GuideDogApp::slotDeleteForwardButton() {
     GuidedogPortForwardRule rule;
     int rowIndex;
@@ -1106,7 +1281,9 @@ void GuideDogApp::slotDeleteForwardButton() {
 }
 
 
-///////////////////////////////////////////////////////////////////////////
+/*!
+ * \brief GuideDogApp::slotOriginalMachineRadio
+ */
 void GuideDogApp::slotOriginalMachineRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1128,7 +1305,10 @@ void GuideDogApp::slotOriginalMachineRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalSpecifyRadio
+ */
 void GuideDogApp::slotOriginalSpecifyRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1150,7 +1330,10 @@ void GuideDogApp::slotOriginalSpecifyRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewMachineRadio
+ */
 void GuideDogApp::slotNewMachineRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1172,7 +1355,10 @@ void GuideDogApp::slotNewMachineRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewSpecifyRadio
+ */
 void GuideDogApp::slotNewSpecifyRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1194,7 +1380,11 @@ void GuideDogApp::slotNewSpecifyRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalPortSpinBox
+ * \param x
+ */
 void GuideDogApp::slotOriginalPortSpinBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1213,7 +1403,11 @@ void GuideDogApp::slotOriginalPortSpinBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewPortSpinBox
+ * \param x
+ */
 void GuideDogApp::slotNewPortSpinBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1232,7 +1426,11 @@ void GuideDogApp::slotNewPortSpinBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotPortProtocolComboBox
+ * \param x
+ */
 void GuideDogApp::slotPortProtocolComboBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1251,7 +1449,11 @@ void GuideDogApp::slotPortProtocolComboBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalSpecifyLineEdit
+ * \param s
+ */
 void GuideDogApp::slotOriginalSpecifyLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1270,7 +1472,11 @@ void GuideDogApp::slotOriginalSpecifyLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewSpecifyLineEdit
+ * \param s
+ */
 void GuideDogApp::slotNewSpecifyLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1289,7 +1495,11 @@ void GuideDogApp::slotNewSpecifyLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotCommentLineEdit
+ * \param s
+ */
 void GuideDogApp::slotCommentLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1308,7 +1518,13 @@ void GuideDogApp::slotCommentLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::applyScript
+ * \param warnfirst If a warning dialog box should appear
+ * \return
+ * Executes the iptables rules as a BASH script
+ */
 bool GuideDogApp::applyScript(bool warnfirst) {
     QString finalRules;
     CommandRunner cr(this);
@@ -1341,7 +1557,10 @@ bool GuideDogApp::applyScript(bool warnfirst) {
         }
         cr.setWindowTitle(tr("Modify Routing Configuration"));
         cr.setHeading(tr("Configuring...\n\nOutput:"));
-        cr.run(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
+        // Consider this line instead of exporting the variable in the shell
+        // Proposed by Felix Geyer <debfx-pkg@fobos.de>  Sat, 08 Jan 2011 15:59:51 +0100
+        // putenv("GUIDEDOG_VERBOSE=1");
+        cr.pkexecRun(QString("export GUIDEDOG_VERBOSE=1\n" + finalRules + "\n"));
         systemconfigmodified = true;
         commandrunnersize = cr.size();
         return true;
@@ -1374,7 +1593,66 @@ bool GuideDogApp::applyScript(bool warnfirst) {
     return false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::saveScript
+ * \return
+ */
+bool GuideDogApp::saveScript() {
+    QString errorstring;
+
+    if (isSuperUser) {
+        QString filename(SYSTEM_RC_GUIDEDOG);
+        // Now the script gets written into filesystem
+        if (doc->saveScript(filename, errorstring) == false) {
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                QString(tr("An error occurred while writing the script to disk.\n\n"
+                "(Detailed message: \"%1\")")).arg(errorstring));
+            return false;
+        }
+    } else {
+        // Not as root
+        // Create a temporary file
+        QTemporaryFile tmpfile;
+
+        if (!tmpfile.open()) {
+            errorstring = QObject::tr("An error occurred while writing '%1'. The operating system has this to report about the error: %2")
+                .arg(tmpfile.fileName()).arg(strerror(tmpfile.error()));
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                QString(tr("An error occurred while writing temporary file to disk.\n\n"
+                "(Detailed message: \"%1\")")).arg(errorstring));
+            return false;
+        }
+        CommandRunner cr(this);
+        QTextStream out(&tmpfile);
+        if (doc->writeScript(out) == false) {
+            QMessageBox::critical(this, tr("Error - Guidedog"),
+                tr("An error occurred while writing the script to disk.\n"));
+             return false;
+        }
+        tmpfile.close();
+        tmpfile.setPermissions(tmpfile.fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner
+            | QFileDevice::ReadGroup | QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::ExeOther);
+
+        // Now we run the tmp script in our super friendly window.
+        if (!commandrunnersize.isEmpty()) {
+             cr.resize(commandrunnersize);
+        }
+        cr.setWindowTitle(tr("Save guidedog script"));
+        cr.setHeading(tr("Saving %1...\n\nOutput:").arg(SYSTEM_RC_GUIDEDOG));
+        // Use command shell with pkexec to move it to system location
+        cr.pkexecRun(QString("cp -v " + tmpfile.fileName() + " " + SYSTEM_RC_GUIDEDOG + "\n"));
+        commandrunnersize = cr.size();
+    }
+    return true;
+}
+
+
+/*!
+ * \brief GuideDogApp::resetSystemConfiguration
+ * \return
+ * Resets system iptables as a BASH script
+ */
 bool GuideDogApp::resetSystemConfiguration() {
     CommandRunner cr(this);
 
@@ -1384,7 +1662,7 @@ bool GuideDogApp::resetSystemConfiguration() {
 
     cr.setWindowTitle(tr("Resetting system configuration"));
     cr.setHeading(tr("Resetting system configuration...\n\nOutput:"));
-    cr.run(QString(
+    cr.pkexecRun(QString(
         "echo \"Using iptables.\"\n"
         "echo \"Resetting nat table rules.\"\n"
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin\n"
@@ -1399,19 +1677,24 @@ bool GuideDogApp::resetSystemConfiguration() {
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::openDefault
+ * Reads the current guidedog script from the defined system file.
+ * If the file is not present, warn the user.
+ */
 void GuideDogApp::openDefault() {
     QString filename(SYSTEM_RC_GUIDEDOG);
     QString errorstring;
     QFileInfo fileinfo(SYSTEM_RC_GUIDEDOG);
 
-//    if (!superusermode) {
-//        return; // Sorry, if you are not root then you get no default firewall.
-//    }
+    // if (!superusermode) {
+    //    return; // Sorry, if you are not root then you get no default firewall.
+    // }
 
     if (!fileinfo.exists()) {
-            // There doesn't appear to be a previous Guarddog firewall script.
-            // Just warn the user about the ramifications.
+        // There doesn't appear to be a previous Guidedog firewall script.
+        // Just warn the user about the ramifications.
         QMessageBox::information(this, tr("Information - Guidedog"),
             QString(tr("Guidedog was unable to find a Guidedog script at %1.\n"
             "This is probably ok, it just means that this is the first time Guidedog has been run on this system.\n"
@@ -1420,7 +1703,7 @@ void GuideDogApp::openDefault() {
     } else {
         if (doc->openScript(filename, errorstring) == false) {
 	        doc->factoryDefaults();
-                // We were unable to open the guarddog firewall.
+            // We were unable to open the guidedog firewall.
             QMessageBox::critical(this, tr("Error - Guidedog"),
                 QString(tr("Guidedog was unable to read the file at %1 as being a Guidedog script.\n"
                 "Please be aware that the settings shown may not represent the system's current routing configuration.\n\n"
