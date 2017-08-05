@@ -3,5 +3,4 @@ icons/hicolor/32x32/apps/guidedog.png usr/share/icons/hicolor/32x32/apps
 icons/hicolor/48x48/apps/guidedog.png usr/share/icons/hicolor/48x48/apps
 icons/locolor/16x16/apps/guidedog.png usr/share/icons/locolor/16x16/apps
 icons/locolor/32x32/apps/guidedog.png usr/share/icons/locolor/32x32/apps
-system/guidedog-root.desktop usr/share/applications
 system/guidedog.desktop usr/share/applications
