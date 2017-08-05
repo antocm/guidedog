@@ -786,6 +786,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="aboutButton">
+       <property name="text">
+        <string>A&amp;bout</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -799,14 +806,13 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="aboutButton">
-       <property name="text">
-        <string>A&amp;bout</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="okButton">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
        <property name="text">
         <string>&amp;OK</string>
        </property>

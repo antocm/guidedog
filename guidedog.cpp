@@ -676,8 +676,11 @@ bool GuideDogApp::initialize() {
     connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(slotHelp()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
+    ui->applyButton->setToolTip("Apply iptables rules");
     connect(ui->okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
+    ui->okButton->setToolTip("Save and apply iptables rules and exit");
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(slotClose()));
+    ui->closeButton->setToolTip("Just exit");
 	
 	readOptions();
 	openDefault();
@@ -690,6 +693,7 @@ bool GuideDogApp::initialize() {
 
 /*!
  * \brief GuideDogApp::saveOptions
+ * Saves the guidedog application options
  */
 void GuideDogApp::saveOptions() {
     QSettings config("Guidedog", "Guidedog");
@@ -702,6 +706,7 @@ void GuideDogApp::saveOptions() {
 
 /*!
  * \brief GuideDogApp::readOptions
+ * Reads the guidedog application options
  */
 void GuideDogApp::readOptions() {
     QSettings config("Guidedog", "Guidedog");
@@ -721,6 +726,7 @@ void GuideDogApp::readOptions() {
 
 /*!
  * \brief GuideDogApp::syncGUIFromDoc
+ * Synchronizes the GUI based on object states from the document
  */
 void GuideDogApp::syncGUIFromDoc() {
     int i;
@@ -842,28 +848,33 @@ void GuideDogApp::enabledGUIStuff() {
 
 
 /*!
- * \brief GuideDogApp::slotOk
- * Writes the guidedog script to the defined system file.
+ * \brief GuideDogApp::slotOk writes and applies script and exit application
+ * Writes the guidedog script to the defined system file and
+ * Runs the guidedog script (applies the iptables rules to the running system)
+ * Exits.
  */
 void GuideDogApp::slotOk() {
 	QString errorstring;
     QString filename(SYSTEM_RC_GUIDEDOG);
 
+    // Now the script gets written into filesystem
     if (doc->saveScript(filename, errorstring) == false) {
         QMessageBox::critical(this, tr("Error - Guidedog"),
             QString(tr("An error occurred while writing the script to disk.\n\n"
             "(Detailed message: \"%1\")")).arg(errorstring));
 		return;
 	}
-	if (applyScript(true)) {
-        saveOptions();
-        accept();
+    if (applyScript(true)) {    // Applies the script to running system
+        saveOptions();          // Save application options
+        accept();               // Exits
 	}
 }
 
 
 /*!
  * \brief GuideDogApp::slotClose
+ * Just exits. If script has been applied but never saved,
+ * the user may return to the original settings before guidedog started.
  */
 void GuideDogApp::slotClose() {
     QString errorstring;
@@ -907,6 +918,7 @@ void GuideDogApp::slotClose() {
 
 /*!
  * \brief GuideDogApp::slotApply
+ * Runs the guidedog script (applies the iptables rules to the running system)
  */
 void GuideDogApp::slotApply() {
     applyScript(true);
@@ -915,6 +927,7 @@ void GuideDogApp::slotApply() {
 
 /*!
  * \brief GuideDogApp::slotAbout
+ * Shows the about dialog
  */
 void GuideDogApp::slotAbout() {
     AboutDialog *aboutDialog = new AboutDialog(this);
@@ -1487,8 +1500,9 @@ void GuideDogApp::slotCommentLineEdit(const QString &s) {
 
 /*!
  * \brief GuideDogApp::applyScript
- * \param warnfirst
+ * \param warnfirst If a warning dialog box should appear
  * \return
+ * Executes the iptables rules as a BASH script
  */
 bool GuideDogApp::applyScript(bool warnfirst) {
     QString finalRules;
@@ -1562,7 +1576,7 @@ bool GuideDogApp::applyScript(bool warnfirst) {
 /*!
  * \brief GuideDogApp::resetSystemConfiguration
  * \return
- * Resets system iptables
+ * Resets system iptables as a BASH script
  */
 bool GuideDogApp::resetSystemConfiguration() {
     CommandRunner cr(this);

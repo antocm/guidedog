@@ -37,6 +37,7 @@
 #endif
 
 #define SYSTEM_RC_GUIDEDOG "/etc/rc.guidedog"
+#define GUIDEDOG_VERSION "1.2.0"
 
 
 /*!
@@ -93,9 +94,9 @@ protected:
 
 public slots:
     // Dialog main buttons
-    void slotOk();
-    void slotApply();
-    void slotClose();
+    void slotOk();              // Writes, executes and exits
+    void slotApply();           // Execute only
+    void slotClose();           // Close only
     void slotAbout();
     void slotHelp();
 

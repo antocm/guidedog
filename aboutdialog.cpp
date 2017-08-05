@@ -21,6 +21,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "guidedog.h"
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
@@ -34,6 +35,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
+    ui->guidedogLabel->text() = GUIDEDOG_VERSION;
 }
 
 
