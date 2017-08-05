@@ -29,10 +29,10 @@
 #include <QLabel>
 #include <QTextEdit>
 
-/**
-  *@author Simon Edwards
-  */
 
+/*!
+ * \brief The CommandRunner class
+ */
 class CommandRunner : public QDialog  {
     Q_OBJECT
 public:

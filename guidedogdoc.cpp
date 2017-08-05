@@ -27,7 +27,10 @@
 #include <QFile>
 #include <QSaveFile>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogPortForwardRule::GuidedogPortForwardRule
+ */
 GuidedogPortForwardRule::GuidedogPortForwardRule() {
     specifyoriginal = false;
     specifynewaddress = false;
@@ -35,8 +38,12 @@ GuidedogPortForwardRule::GuidedogPortForwardRule() {
     originalport = 0;
     newport = 0;
 }
-    
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuidedogPortForwardRule::getSummary
+ * \return
+ */
 QString GuidedogPortForwardRule::getSummary() const {
     QString str;
 
@@ -66,65 +73,115 @@ QString GuidedogPortForwardRule::getSummary() const {
     return str;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::GuidedogDoc Constructor
+ */
 GuidedogDoc::GuidedogDoc() {
     factoryDefaults();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::~GuidedogDoc Desctructor
+ */
 GuidedogDoc::~GuidedogDoc(){
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::setDisabled
+ * \param on
+ */
 void GuidedogDoc::setDisabled(bool on) {
     disabled = on;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::isDisabled
+ * \return
+ */
 bool GuidedogDoc::isDisabled() {
     return disabled;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::setRouting
+ * \param on
+ */
 void GuidedogDoc::setRouting(bool on) {
     routing = on;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::isRouting
+ * \return
+ */
 bool GuidedogDoc::isRouting() {
     return routing;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::setMasquerade
+ * \param on
+ */
 void GuidedogDoc::setMasquerade(bool on) {
     masquerade = on;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::isMasquerade
+ * \return
+ */
 bool GuidedogDoc::isMasquerade() {
     return masquerade;
 }
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief GuidedogDoc::setMasqueradeFTP
+ * \param on
+ */
 void GuidedogDoc::setMasqueradeFTP(bool on) {
     masqueradeftp = on;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::isMasqueradeFTP
+ * \return
+ */
 bool GuidedogDoc::isMasqueradeFTP() {
     return masqueradeftp;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::setMasqueradeIRC
+ * \param on
+ */
 void GuidedogDoc::setMasqueradeIRC(bool on) {
     masqueradeirc = on;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::isMasqueradeIRC
+ * \return
+ */
 bool GuidedogDoc::isMasqueradeIRC() {
     return masqueradeirc;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::factoryDefaults
+ */
 void GuidedogDoc::factoryDefaults() {
     disabled = false;
     routing = false;
@@ -134,7 +191,13 @@ void GuidedogDoc::factoryDefaults() {
     description = "";
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::writeScript
+ * \param stream The text stream to write the script
+ * \return true if successful, false otherwise
+ * Create the guidedog script and writes to stream
+ */
 bool GuidedogDoc::writeScript(QTextStream &stream) {
     int c, oldc, i;
     GuidedogPortForwardRule *rule;
@@ -357,7 +420,13 @@ bool GuidedogDoc::writeScript(QTextStream &stream) {
 }
 
 
-///////////////////////////////////////////////////////////////////////////
+/*!
+ * \brief GuidedogDoc::readScript
+ * \param stream The text stream to read the script
+ * \param errorstring The error description when return is false (if any)
+ * \return true if successful, false otherwise
+ * Reads the guidedog script from a stream
+ */
 bool GuidedogDoc::readScript(QTextStream &stream, QString &errorstring) {
     QString s;
     bool addcr;
@@ -568,7 +637,13 @@ error:
     return false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::openScript
+ * \param filename The path for the script to open
+ * \param errorstring The error description when return is false (if any)
+ * \return true if successful, false otherwise
+ */
 bool GuidedogDoc::openScript(const QString &filename, QString &errorstring) {
     QFile file(filename);
 
@@ -588,7 +663,14 @@ bool GuidedogDoc::openScript(const QString &filename, QString &errorstring) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuidedogDoc::saveScript
+ * \param filename The path for the script to write
+ * \param errorstring The error description when return is false (if any)
+ * \return true if successful, false otherwise
+ * Saves the guidedog script to filename path
+ */
 bool GuidedogDoc::saveScript(const QString &filename, QString &errorstring) {
     QFile file(filename);     // We want it root executable.
 

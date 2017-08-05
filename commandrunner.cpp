@@ -26,7 +26,11 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::CommandRunner
+ * \param parent
+ */
 CommandRunner::CommandRunner(QWidget *parent) : QDialog(parent) {
     QVBoxLayout *verticalLayoutMain;
     QVBoxLayout *verticalLayout;
@@ -76,17 +80,28 @@ CommandRunner::CommandRunner(QWidget *parent) : QDialog(parent) {
     connect(kid, SIGNAL(readyReadStandardError()), this, SLOT(slotReceivedStderr()));
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::~CommandRunner
+ */
 CommandRunner::~CommandRunner() {
     delete kid;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::setHeading
+ * \param heading
+ */
 void CommandRunner::setHeading(const QString &heading) {
     headinglabel->setText(heading);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::run
+ * \param cmd
+ */
 void CommandRunner::run(QString cmd) {
     command = cmd;
     output.truncate(0);
@@ -98,7 +113,12 @@ void CommandRunner::run(QString cmd) {
     exec();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotKidExited
+ * \param exitCode
+ * \param exitStatus
+ */
 void CommandRunner::slotKidExited(int exitCode, QProcess::ExitStatus exitStatus) {
     if (exitStatus == QProcess::NormalExit) {
         qDebug("Command executed normally. Exit code is %d", exitCode);
@@ -109,21 +129,30 @@ void CommandRunner::slotKidExited(int exitCode, QProcess::ExitStatus exitStatus)
     okbutton->setEnabled(true);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotReceivedStdout
+ */
 void CommandRunner::slotReceivedStdout() {
     output.append(kid->readAllStandardOutput());
     outputview->setText(output);
     outputview->ensureCursorVisible();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotReceivedStderr
+ */
 void CommandRunner::slotReceivedStderr() {
     output.append(kid->readAllStandardError());
     outputview->setText(output);
     outputview->ensureCursorVisible();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief CommandRunner::slotOkClicked
+ */
 void CommandRunner::slotOkClicked() {
     done(0);
 }

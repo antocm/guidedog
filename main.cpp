@@ -28,6 +28,14 @@
 // #include <QCommandLineParser>
 #include <unistd.h>
 
+
+/*!
+ * \brief main
+ * \param argc
+ * \param argv
+ * \return
+ * \todo The command line parser should be reimplemented
+ */
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

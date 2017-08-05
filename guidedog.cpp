@@ -34,19 +34,33 @@
 #include <QSettings>
 #include <QDesktopServices>
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class AddressValidator
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::AddressValidator Constructor
+ * \param parent
+ */
 AddressValidator::AddressValidator(QWidget *parent) : QValidator(parent) {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::~AddressValidator Destructor
+ */
 AddressValidator::~AddressValidator() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::validate
+ * \param input
+ * \param pos
+ * \return
+ */
 QValidator::State AddressValidator::validate(QString &input, int & pos) const {
     Q_UNUSED(pos);
     QRegExp sanity("^[0-9a-zA-Z./-]*$");
@@ -158,7 +172,11 @@ QValidator::State AddressValidator::validate(QString &input, int & pos) const {
     return Intermediate;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief AddressValidator::fixup
+ * \param input
+ */
 void AddressValidator::fixup(QString &input) const {
     QString clean, tmp, mask;
     int i, slashcount;
@@ -290,19 +308,33 @@ void AddressValidator::fixup(QString &input) const {
     return;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class IPValidator
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::IPValidator
+ * \param parent
+ */
 IPValidator::IPValidator(QWidget *parent) : QValidator(parent) {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::~IPValidator
+ */
 IPValidator::~IPValidator() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::validate
+ * \param input
+ * \param pos
+ * \return
+ */
 QValidator::State IPValidator::validate(QString &input, int & pos) const {
     Q_UNUSED(pos);
     QRegExp sanity("^[0-9./]*$");
@@ -408,7 +440,11 @@ QValidator::State IPValidator::validate(QString &input, int & pos) const {
     return Intermediate;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPValidator::fixup
+ * \param input
+ */
 void IPValidator::fixup(QString &input) const {
     QString clean;
     QString tmp;
@@ -542,11 +578,16 @@ void IPValidator::fixup(QString &input) const {
     return;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// - Class GuideDogApp
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::GuideDogApp Constructor
+ * \param parent
+ */
 GuideDogApp::GuideDogApp(QWidget *parent) : QDialog(parent), ui(new Ui::GuideDogApp) {
     setWindowTitle("Guidedog");
     doc = 0;
@@ -554,14 +595,20 @@ GuideDogApp::GuideDogApp(QWidget *parent) : QDialog(parent), ui(new Ui::GuideDog
     ui->setupUi(this);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::~GuideDogApp Desctructor
+ */
 GuideDogApp::~GuideDogApp() {
     delete doc;
     delete ui;
 }
 
-///////////////////////////////////////////////////////////////////////////
-// Previously, there was a bool god argument accepted by this method
+
+/*!
+ * \brief GuideDogApp::initialize
+ * \return
+ */
 bool GuideDogApp::initialize() {
     waspreviousconfiguration = false;
     systemconfigmodified = false;
@@ -625,7 +672,7 @@ bool GuideDogApp::initialize() {
     connect(ui->importbutton, SIGNAL(clicked()), this, SLOT(slotImportButton()));
     connect(ui->exportbutton, SIGNAL(clicked()), this, SLOT(slotExportButton()));
 
-    // Main buttons (Help, About, OK, Apply, Cancel)
+    // Main buttons (Help, About, OK, Apply, Close)
     connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(slotHelp()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(slotAbout()));
     connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(slotApply()));
@@ -640,7 +687,10 @@ bool GuideDogApp::initialize() {
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::saveOptions
+ */
 void GuideDogApp::saveOptions() {
     QSettings config("Guidedog", "Guidedog");
 
@@ -649,7 +699,10 @@ void GuideDogApp::saveOptions() {
     config.sync();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::readOptions
+ */
 void GuideDogApp::readOptions() {
     QSettings config("Guidedog", "Guidedog");
 
@@ -665,7 +718,10 @@ void GuideDogApp::readOptions() {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::syncGUIFromDoc
+ */
 void GuideDogApp::syncGUIFromDoc() {
     int i;
 
@@ -705,7 +761,11 @@ void GuideDogApp::syncGUIFromDoc() {
     enabledGUIStuff();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::setForwardRule
+ * \param rule
+ */
 void GuideDogApp::setForwardRule(const GuidedogPortForwardRule *rule) {
 
     if (!rule) {
@@ -733,7 +793,10 @@ void GuideDogApp::setForwardRule(const GuidedogPortForwardRule *rule) {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::enabledGUIStuff
+ */
 void GuideDogApp::enabledGUIStuff() {
     bool active, gotaddys, gotrules;
     GuidedogPortForwardRule rule;
@@ -777,7 +840,11 @@ void GuideDogApp::enabledGUIStuff() {
     
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOk
+ * Writes the guidedog script to the defined system file.
+ */
 void GuideDogApp::slotOk() {
 	QString errorstring;
     QString filename(SYSTEM_RC_GUIDEDOG);
@@ -794,7 +861,10 @@ void GuideDogApp::slotOk() {
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotClose
+ */
 void GuideDogApp::slotClose() {
     QString errorstring;
     QMessageBox::StandardButton reply;
@@ -834,23 +904,36 @@ void GuideDogApp::slotClose() {
     }	
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotApply
+ */
 void GuideDogApp::slotApply() {
     applyScript(true);
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAbout
+ */
 void GuideDogApp::slotAbout() {
     AboutDialog *aboutDialog = new AboutDialog(this);
     aboutDialog->show();
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotHelp
+ */
 void GuideDogApp::slotHelp() {
     QDesktopServices::openUrl(QUrl("http://www.simonzone.com/software/guidedog/manual/", QUrl::TolerantMode));
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotRouting
+ * \param on
+ */
 void GuideDogApp::slotRouting(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -861,7 +944,11 @@ void GuideDogApp::slotRouting(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotMasquerade
+ * \param on
+ */
 void GuideDogApp::slotMasquerade(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -872,7 +959,11 @@ void GuideDogApp::slotMasquerade(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotMasqueradeFTP
+ * \param on
+ */
 void GuideDogApp::slotMasqueradeFTP(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -880,7 +971,11 @@ void GuideDogApp::slotMasqueradeFTP(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotMasqueradeIRC
+ * \param on
+ */
 void GuideDogApp::slotMasqueradeIRC(bool on) {
     if (updatinggui) return;
     updatinggui = true;
@@ -888,7 +983,11 @@ void GuideDogApp::slotMasqueradeIRC(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotForwardListBox
+ * \param item
+ */
 void GuideDogApp::slotForwardListBox(QListWidgetItem *item) {
     GuidedogPortForwardRule rule;
     
@@ -905,7 +1004,11 @@ void GuideDogApp::slotForwardListBox(QListWidgetItem *item) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDisableGuidedog
+ * \param on
+ */
 void GuideDogApp::slotDisableGuidedog(bool on) {
 
     if (updatinggui) return;
@@ -917,7 +1020,10 @@ void GuideDogApp::slotDisableGuidedog(bool on) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotImportButton
+ */
 void GuideDogApp::slotImportButton() {
     QString filename, errorstring;
     GuidedogDoc *tmpdoc;
@@ -952,7 +1058,10 @@ void GuideDogApp::slotImportButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotExportButton
+ */
 void GuideDogApp::slotExportButton() {
     QString filename, errorstring;
 
@@ -974,7 +1083,10 @@ void GuideDogApp::slotExportButton() {
 
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDescriptionChanged
+ */
 void GuideDogApp::slotDescriptionChanged() {
     if (updatinggui) return;
     updatinggui = true;
@@ -984,7 +1096,11 @@ void GuideDogApp::slotDescriptionChanged() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNoMasqueradeListBox
+ * \param item
+ */
 void GuideDogApp::slotNoMasqueradeListBox(QListWidgetItem *item) {
     QString address;
 
@@ -999,7 +1115,10 @@ void GuideDogApp::slotNoMasqueradeListBox(QListWidgetItem *item) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewAddressButton
+ */
 void GuideDogApp::slotNewAddressButton() {
     if (updatinggui) return;
     updatinggui = true;
@@ -1013,7 +1132,10 @@ void GuideDogApp::slotNewAddressButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDeleteAddressButton
+ */
 void GuideDogApp::slotDeleteAddressButton() {
     int rowIndex;
         
@@ -1047,7 +1169,11 @@ void GuideDogApp::slotDeleteAddressButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAddressLineEdit
+ * \param s
+ */
 void GuideDogApp::slotAddressLineEdit(const QString &s) {
     int i;
 
@@ -1061,11 +1187,17 @@ void GuideDogApp::slotAddressLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotAddressLineEditReturn
+ */
 void GuideDogApp::slotAddressLineEditReturn() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewForwardButton
+ */
 void GuideDogApp::slotNewForwardButton() {
     GuidedogPortForwardRule newrule;
 
@@ -1082,7 +1214,10 @@ void GuideDogApp::slotNewForwardButton() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotDeleteForwardButton
+ */
 void GuideDogApp::slotDeleteForwardButton() {
     GuidedogPortForwardRule rule;
     int rowIndex;
@@ -1112,7 +1247,9 @@ void GuideDogApp::slotDeleteForwardButton() {
 }
 
 
-///////////////////////////////////////////////////////////////////////////
+/*!
+ * \brief GuideDogApp::slotOriginalMachineRadio
+ */
 void GuideDogApp::slotOriginalMachineRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1134,7 +1271,10 @@ void GuideDogApp::slotOriginalMachineRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalSpecifyRadio
+ */
 void GuideDogApp::slotOriginalSpecifyRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1156,7 +1296,10 @@ void GuideDogApp::slotOriginalSpecifyRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewMachineRadio
+ */
 void GuideDogApp::slotNewMachineRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1178,7 +1321,10 @@ void GuideDogApp::slotNewMachineRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewSpecifyRadio
+ */
 void GuideDogApp::slotNewSpecifyRadio() {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1200,7 +1346,11 @@ void GuideDogApp::slotNewSpecifyRadio() {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalPortSpinBox
+ * \param x
+ */
 void GuideDogApp::slotOriginalPortSpinBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1219,7 +1369,11 @@ void GuideDogApp::slotOriginalPortSpinBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewPortSpinBox
+ * \param x
+ */
 void GuideDogApp::slotNewPortSpinBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1238,7 +1392,11 @@ void GuideDogApp::slotNewPortSpinBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotPortProtocolComboBox
+ * \param x
+ */
 void GuideDogApp::slotPortProtocolComboBox(int x) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1257,7 +1415,11 @@ void GuideDogApp::slotPortProtocolComboBox(int x) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotOriginalSpecifyLineEdit
+ * \param s
+ */
 void GuideDogApp::slotOriginalSpecifyLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1276,7 +1438,11 @@ void GuideDogApp::slotOriginalSpecifyLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotNewSpecifyLineEdit
+ * \param s
+ */
 void GuideDogApp::slotNewSpecifyLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1295,7 +1461,11 @@ void GuideDogApp::slotNewSpecifyLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::slotCommentLineEdit
+ * \param s
+ */
 void GuideDogApp::slotCommentLineEdit(const QString &s) {
     int i;
     GuidedogPortForwardRule *rule;
@@ -1314,7 +1484,12 @@ void GuideDogApp::slotCommentLineEdit(const QString &s) {
     updatinggui = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::applyScript
+ * \param warnfirst
+ * \return
+ */
 bool GuideDogApp::applyScript(bool warnfirst) {
     QString finalRules;
     CommandRunner cr(this);
@@ -1383,7 +1558,12 @@ bool GuideDogApp::applyScript(bool warnfirst) {
     return false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::resetSystemConfiguration
+ * \return
+ * Resets system iptables
+ */
 bool GuideDogApp::resetSystemConfiguration() {
     CommandRunner cr(this);
 
@@ -1408,7 +1588,12 @@ bool GuideDogApp::resetSystemConfiguration() {
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief GuideDogApp::openDefault
+ * Reads the current guidedog script from the defined system file.
+ * If the file is not present, warn the user.
+ */
 void GuideDogApp::openDefault() {
     QString filename(SYSTEM_RC_GUIDEDOG);
     QString errorstring;

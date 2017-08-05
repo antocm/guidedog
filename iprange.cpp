@@ -25,32 +25,54 @@
 
 #include <QRegExp>
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::IPRange
+ */
 IPRange::IPRange() {
     gottype = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::IPRange
+ * \param a
+ */
 IPRange::IPRange(const QString &a) {
     setAddress(a);
 }
-        
-///////////////////////////////////////////////////////////////////////////
+
+
+/*!
+ * \brief IPRange::~IPRange
+ */
 IPRange::~IPRange() {
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::setAddress
+ * \param a
+ */
 void IPRange::setAddress(const QString &a) {
     address = a;
     gottype = false;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::getAddress
+ * \return
+ */
 QString IPRange::getAddress() const {
     return address;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::getType
+ * \return
+ */
 IPRangeType IPRange::getType() {
     if (!gottype) {
         type = guessType();
@@ -59,7 +81,11 @@ IPRangeType IPRange::getType() {
     return type;
 }
 
-///////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief IPRange::guessType
+ * \return
+ */
 IPRangeType IPRange::guessType() {
     QRegExp sanity("^[0-9a-zA-Z./-]*$");
     QRegExp domainnametest("^([a-zA-Z0-9-]+\\.)+[a-zA-Z0-9-]+$");
