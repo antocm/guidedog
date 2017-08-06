@@ -5,11 +5,7 @@ To install and run this software requires:
 
 * qtbase5-dev
 * gcc
-<<<<<<< ours
-* policykit-1 and pkexec
-=======
 * policykit-1
->>>>>>> theirs
 * iproute2
 * iptables - Commands for setup Linux's low level network filtering
 * Linux
