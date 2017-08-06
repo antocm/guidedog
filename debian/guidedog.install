@@ -4,3 +4,4 @@ icons/hicolor/48x48/apps/guidedog.png usr/share/icons/hicolor/48x48/apps
 icons/locolor/16x16/apps/guidedog.png usr/share/icons/locolor/16x16/apps
 icons/locolor/32x32/apps/guidedog.png usr/share/icons/locolor/32x32/apps
 system/guidedog.desktop usr/share/applications
+system/org.freedesktop.policykit.guidedog.policy /usr/share/polkit-1/actions
