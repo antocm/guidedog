@@ -3,11 +3,11 @@ Section: net
 Priority: optional
 Maintainer: Antonio Cardoso Martins <digiplan.pt@gmail.com>
 Uploaders: Gianfranco Costamagna <locutusofborg@debian.org>
-Build-Depends: debhelper-compat (= 12), qtbase5-dev
+Build-Depends: debhelper-compat (= 13), qtbase5-dev
 Standards-Version: 4.0.0
 Homepage: https://github.com/antocm/guidedog/wiki
 Vcs-Browser: https://github.com/antocm/guidedog/tree/debian
-VCS-Git: https://github.com/antocm/guidedog/ -b debian
+Vcs-Git: https://github.com/antocm/guidedog/ -b debian
 
 Package: guidedog
 Architecture: linux-any
